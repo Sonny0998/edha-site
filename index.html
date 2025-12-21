@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>EDHA - Éducation & Développement d'Haïti</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="EDHA - Éducation et Développement d'Haïti : ONG, institution éducative moderne et mouvement international. Programmes sociaux, technologiques, citoyens et projets universitaires pour transformer la jeunesse haïtienne.">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- ✅ API BASE (LOCAL pour le moment)
+       Plus tard, remplace par https://ton-backend.onrender.com -->
+  <script>
+    window.__EDHA_API__ = "http://127.0.0.1:5000";
+  </script>
+
+  <!-- ✅ Ton JS principal -->
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <!-- TRADUCTEUR AUTOMATIQUE FR / EN / ES / HT -->
+  <div id="google_translate_element"
+       style="position:fixed;top:4.8rem;right:1rem;z-index:60;"></div>
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'fr',
+        includedLanguages: 'fr,en,es,ht',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <!-- NAVBAR -->
+  <header>
+    <div class="container nav">
+      <div class="nav-left">
+        <div class="logo-mark-text">E</div>
+        <div>
+          <div class="logo-text-main">EDHA</div>
+          <div class="logo-sub">Éducation & Développement d'Haïti</div>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <a href="#accueil">Accueil</a>
+        <a href="#apropos">À propos</a>
+        <a href="#programmes">Programmes</a>
+        <a href="#formations">EDHA Academy</a>
+        <a href="#reseau">Réseau & International</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="lang-switch" type="button" aria-label="Langues disponibles via Google Translate">
+          FR · EN · ES · HT
+        </button>
+        <a href="https://TU_LINK_DE_PAYPAL" target="_blank" rel="noopener" class="btn btn-primary">
+          Faire un don
+        </a>
+
+        <button class="nav-toggle" type="button" aria-label="Ouvrir le menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero reveal" id="accueil">
+    <div class="container hero-inner">
+      <div>
+        <div class="badge">ONG · INSTITUTION ÉDUCATIVE · MOUVEMENT INTERNATIONAL</div>
+        <h1 class="hero-title">
+          Éduquer, connecter et <span>préparer la jeunesse haïtienne pour l’avenir.</span>
+        </h1>
+        <p class="hero-text">
+          EDHA est une organisation non gouvernementale, une institution éducative moderne
+          et un mouvement international consacré à l’émancipation, la formation et la
+          transformation de la jeunesse haïtienne grâce à l’éducation, la technologie,
+          le développement humain et la coopération avec la diaspora.
+        </p>
+        <div class="hero-cta">
+          <a href="#formations" class="btn btn-primary">Découvrir EDHA Academy</a>
+          <a href="#programmes" class="btn btn-outline">Voir nos programmes</a>
+        </div>
+        <div class="hero-meta">
+          <span><strong>Mission :</strong> former, accompagner, soutenir et inspirer les jeunes</span>
+          <span><strong>Présence :</strong> Haïti & diaspora</span>
+        </div>
+      </div>
+
+      <aside class="hero-card hero-card-image">
+        <!-- ✅ corrigé selon ta structure (assets/) -->
+        <img src="assets/edha-bg.jpg"
+             alt="Jeunes d’Haïti en formation avec EDHA">
+      </aside>
+    </div>
+  </section>
+
+  <!-- AXES PRINCIPAUX (vision globale) -->
+  <section class="axes reveal" id="instructions">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge">Notre approche globale</div>
+        <h2>Éducation, innovation, soutien social et coopération internationale</h2>
+        <p>
+          EDHA intègre éducation formelle, développement humain, innovation technologique,
+          soutien social, engagement citoyen et réseau international pour bâtir une Haïti
+          forte, éduquée, innovante et durable.
+        </p>
+      </div>
+
+      <div class="axes-grid">
+        <article class="axis-card">
+          <div class="axis-number">01</div>
+          <h3>ÉDUCATION ET FORMATION INTÉGRALE</h3>
+          <p>
+            Accès à une éducation de base, secondaire et supérieure de qualité,
+            avec des compétences académiques, humaines et professionnelles.
+          </p>
+        </article>
+
+        <article class="axis-card">
+          <div class="axis-number">02</div>
+          <h3>TECHNOLOGIE & INNOVATION</h3>
+          <p>
+            Cours de programmation, robotique, IA, créativité numérique et
+            entrepreneuriat technologique pour préparer les innovateurs de demain.
+          </p>
+        </article>
+
+        <article class="axis-card">
+          <div class="axis-number">03</div>
+          <h3>DÉVELOPPEMENT SOCIAL & CITOYENNETÉ</h3>
+          <p>
+            Santé, éducation civique, valeurs sociales, leadership communautaire et
+            actions humanitaires pour une génération responsable et engagée.
+          </p>
+        </article>
+
+        <article class="axis-card">
+          <div class="axis-number">04</div>
+          <h3>RÉSEAU NATIONAL & INTERNATIONAL</h3>
+          <p>
+            Pôles régionaux en Haïti, EDHA Connect pour la diaspora, et une stratégie
+            mondiale pour connecter la jeunesse haïtienne au reste du monde.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- A PROPOS -->
+  <section class="about reveal" id="apropos">
+    <div class="container about-inner">
+      <div class="about-text">
+        <div class="badge">À propos d'EDHA</div>
+        <h2>Une organisation visionnaire au service de la transformation d’Haïti.</h2>
+
+        <h3>Notre Mission</h3>
+        <p>
+          La mission d’EDHA est de former, accompagner, soutenir et inspirer les jeunes
+          d’Haïti afin de les préparer à devenir les acteurs principaux du changement
+          social, économique et technologique du pays.
+        </p>
+
+        <h3>Notre Vision</h3>
+        <p>
+          Construire une Haïti forte, éduquée, innovante et durable, où chaque jeune
+          a accès à une éducation de qualité, à la technologie, à des opportunités
+          locales et internationales, et à un environnement qui valorise la solidarité
+          et la modernité.
+        </p>
+
+        <ul class="about-bullets">
+          <li>ONG & institution éducative moderne</li>
+          <li>Mouvement international dédié à la jeunesse haïtienne</li>
+          <li>Approche globale : éducation, technologie, social, citoyenneté</li>
+          <li>Plateformes numériques, pôles régionaux et projets universitaires</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="badge">Nos valeurs</div>
+        <div class="values-grid">
+          <div class="value-card">
+            <strong>Équité et Justice Sociale</strong>
+            Une société plus juste où chaque jeune a droit à une éducation digne
+            et accessible.
+          </div>
+          <div class="value-card">
+            <strong>Innovation et Excellence</strong>
+            Méthodes éducatives et technologiques modernes qui encouragent
+            la créativité et l’adaptation au changement.
+          </div>
+          <div class="value-card">
+            <strong>Engagement et Responsabilité</strong>
+            Transparence, service et esprit citoyen pour un impact durable.
+          </div>
+          <div class="value-card">
+            <strong>Durabilité et Autonomisation</strong>
+            Solutions à long terme qui renforcent l’autonomie des jeunes
+            et le développement durable en Haïti.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✅ PROGRAMMES (chargés depuis le backend) -->
+  <section class="programmes reveal" id="programmes">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge">Grands programmes d’EDHA</div>
+        <h2>Quatre pôles pour encadrer, former et protéger la jeunesse.</h2>
+        <p>
+          Le projet EDHA s’articule autour de programmes nationaux complémentaires qui
+          couvrent le social, la santé, l’éducation citoyenne et la technologie.
+        </p>
+      </div>
+
+      <div id="programmesGrid" class="programmes-grid"></div>
+    </div>
+  </section>
+
+  <!-- EDHA ACADEMY (PROGRAMMES DETAILLES) -->
+  <section class="academy reveal" id="formations">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge">PROGRAMMES · EDHA ACADEMY</div>
+        <h2>Une académie pour apprendre, protéger et transformer la jeunesse.</h2>
+        <p>
+          EDHA Academy s’articule autour de quatre grands programmes nationaux :
+          social & humanitaire, santé jeunesse, éducation citoyenne et
+          technologie & innovation. Chaque pôle propose des parcours
+          éducatifs et des actions concrètes.
+        </p>
+      </div>
+
+      <div class="academy-layout">
+        <aside class="academy-menu">
+          <h3>Nos programmes :</h3>
+          <div class="academy-buttons">
+            <button class="academy-tab active" data-target="orga" type="button">
+              <span>I. EDHA Organisation</span>
+              <small>Social & communautaire</small>
+            </button>
+            <button class="academy-tab" data-target="sante" type="button">
+              <span>II. EDHA Santé Jeunesse</span>
+              <small>Santé & bien-être</small>
+            </button>
+            <button class="academy-tab" data-target="edu" type="button">
+              <span>III. EDHA Éducation & Citoyen</span>
+              <small>Civisme & valeurs</small>
+            </button>
+            <button class="academy-tab" data-target="tech-innov" type="button">
+              <span>IV. EDHA Technologie & Innovation</span>
+              <small>Numérique & créativité</small>
+            </button>
+          </div>
+        </aside>
+
+        <article class="academy-content">
+          <div class="academy-panel active" id="orga">
+            <h3>I. EDHA Organisation</h3>
+            <p>
+              Département social, humanitaire et de développement communautaire.
+              Ce programme place au centre les enfants, adolescents et familles
+              vulnérables pour répondre à leurs besoins essentiels.
+            </p>
+            <ul>
+              <li>Initiatives pour les enfants, adolescents et familles vulnérables.</li>
+              <li>Actions humanitaires, soutien social et projets communautaires.</li>
+              <li>Développement local et accompagnement des communautés.</li>
+            </ul>
+            <a class="detail-link" href="formations/edha-organisation.html">
+              → Page détaillée du programme
+            </a>
+          </div>
+
+          <div class="academy-panel" id="sante">
+            <h3>II. EDHA Santé Jeunesse</h3>
+            <p>
+              Programme dédié à la santé physique, mentale et au bien-être des jeunes,
+              avec une approche de prévention, de formation et de soutien.
+            </p>
+            <ul>
+              <li>Éducation sanitaire et campagnes de prévention (VIH, choléra, MST, nutrition).</li>
+              <li>Formations en premiers secours et gestes qui sauvent.</li>
+              <li>Soutien psychosocial, santé mentale et journées médicales.</li>
+            </ul>
+            <a class="detail-link" href="formations/edha-sante-jeunesse.html">
+              → Page détaillée du programme
+            </a>
+          </div>
+
+          <div class="academy-panel" id="edu">
+            <h3>III. EDHA Éducation & Citoyen</h3>
+            <p>
+              Programme d’éducation civique, morale et citoyenne qui accompagne
+              les jeunes dans leur parcours scolaire et leur rôle de citoyens
+              responsables.
+            </p>
+            <ul>
+              <li>Soutien scolaire, accompagnement académique et services d’apprentissage.</li>
+              <li>Citoyenneté et civisme : droits, devoirs et participation responsable.</li>
+              <li>Valeurs sociales, identité culturelle, discipline et leadership communautaire.</li>
+            </ul>
+            <a class="detail-link" href="formations/edha-education-citoyen.html">
+              → Page détaillée du programme
+            </a>
+          </div>
+
+          <div class="academy-panel" id="tech-innov">
+            <h3>IV. EDHA Technologie & Innovation</h3>
+            <p>
+              Pôle d’avancement numérique, de robotique, d’IA et de créativité
+              technologique pour faire des jeunes des acteurs de l’économie
+              digitale et de l’innovation sociale.
+            </p>
+            <ul>
+              <li>Cours de programmation (Python, Web, mobile, bases de données).</li>
+              <li>Robotique, électronique, intelligence artificielle et innovation sociale.</li>
+              <li>Créativité numérique, multimédia et entrepreneuriat technologique.</li>
+            </ul>
+            <a class="detail-link" href="formations/edha-technologie-innovation.html">
+              → Page détaillée du programme
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- RÉSEAU NATIONAL & INTERNATIONAL + VISION 2035 -->
+  <section class="network reveal" id="reseau">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge">Réseau EDHA · Haïti & Monde</div>
+        <h2>EDHA Connect, pôles régionaux et projets d’avenir.</h2>
+        <p>
+          EDHA déploie une présence territoriale en Haïti, un réseau international avec
+          la diaspora et des projets stratégiques comme l’université et une chaîne TV
+          éducative pour 2035 et au-delà.
+        </p>
+      </div>
+
+      <div class="network-grid">
+        <article class="network-card">
+          <h3>EDHA Connect – Diaspora & Mentorat</h3>
+          <ul>
+            <li>Réseau mondial d’échanges, de mentorat et de solidarité.</li>
+            <li>Partage d’expériences des jeunes haïtiens vivant à l’étranger.</li>
+            <li>Webinaires, événements virtuels, opportunités de stages et bourses.</li>
+            <li>Valorisation des réussites de la diaspora comme modèles pour la jeunesse.</li>
+          </ul>
+        </article>
+
+        <article class="network-card">
+          <h3>EDHA en Haïti – Pôles régionaux</h3>
+          <ul>
+            <li><strong>Grand Nord :</strong> Nord, Nord-Est, Nord-Ouest – programmes éducatifs, projets communautaires, soutien en zones rurales.</li>
+            <li><strong>Grand Sud & Ouest :</strong> Sud, Nippes, Grand’Anse, Ouest – initiatives humanitaires, grandes formations, projets technologiques.</li>
+            <li><strong>Centre :</strong> Centre, Artibonite – activités agricoles innovantes, formation rurale, développement communautaire.</li>
+            <li>Objectif : présence décentralisée et adaptée aux réalités de chaque région.</li>
+          </ul>
+        </article>
+
+        <article class="network-card">
+          <h3>EDHA Internationale</h3>
+          <ul>
+            <li>EDHA Amérique Latine – collaborations avec universités, ONG et écoles.</li>
+            <li>EDHA Europe – partenariats éducatifs, culturels et universitaires.</li>
+            <li>EDHA Afrique – échanges culturels, formations et solidarité panafricaine.</li>
+            <li>Ambition : promouvoir l’éducation haïtienne à l’échelle globale.</li>
+          </ul>
+        </article>
+
+        <article class="network-card">
+          <h3>Vision 2035 : Projets d’envergure</h3>
+          <ul>
+            <li><strong>EDHA Université :</strong> institution d’enseignement supérieur moderne (technologie, santé, gestion, entrepreneuriat, sciences humaines, innovation).</li>
+            <li><strong>EDHA TV :</strong> chaîne télévisive éducative nationale (émissions éducatives, cours, programmes culturels et technologiques).</li>
+            <li><strong>EDHAC – EDHA Caraïbes :</strong> unifier les étudiants de la région caribéenne.</li>
+            <li><strong>EDHA Monde :</strong> mouvement éducatif et technologique global ouvert à toutes les nations.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULARIOS: BÉNÉVOLES / PARTENAIRES -->
+  <section id="notes" class="reveal">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge">Rejoignez notre impact</div>
+        <h2>Bénévoles, partenaires : il y a une place pour vous.</h2>
+        <p>
+          Chaque inscription nous aide à mieux organiser les formations,
+          les actions communautaires et les projets d’EDHA.
+        </p>
+      </div>
+
+      <div class="join-grid">
+        <article class="join-card">
+          <h3>Pour les Bénévoles</h3>
+          <p>
+            Rejoignez nos projets communautaires et contribuez activement au
+            développement local.
+          </p>
+          <form action="mailto:info.edhaplus@gmail.com" method="post" enctype="text/plain">
+            <div class="form-group">
+              <label>Nom complet</label>
+              <input type="text" name="nom" required>
+            </div>
+            <div class="form-group">
+              <label>E-mail</label>
+              <input type="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label>Compétences / profil</label>
+              <textarea name="competences" placeholder="Ex: enseignant, infirmier, développeur, animateur…"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Disponibilité</label>
+              <input type="text" name="disponibilite" placeholder="Ex: week-end, soirées…">
+            </div>
+            <button class="btn btn-outline" type="submit">Rejoindre comme bénévole</button>
+          </form>
+        </article>
+
+        <article class="join-card">
+          <h3>Pour les Partenaires</h3>
+          <p>
+            Soutenez nos initiatives pour la jeunesse et devenez acteur du
+            changement en Haïti.
+          </p>
+          <form action="mailto:info.edhaplus@gmail.com" method="post" enctype="text/plain">
+            <div class="form-group">
+              <label>Organisation / Institution</label>
+              <input type="text" name="organisation">
+            </div>
+            <div class="form-group">
+              <label>Personne contact</label>
+              <input type="text" name="personne_contact">
+            </div>
+            <div class="form-group">
+              <label>E-mail</label>
+              <input type="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label>Type de collaboration souhaitée</label>
+              <textarea name="collaboration" placeholder="Financement, expertise, partenariat académique, etc."></textarea>
+            </div>
+            <button class="btn btn-outline" type="submit">Nous contacter</button>
+          </form>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- DON -->
+  <section class="cta-don reveal" id="don">
+    <div class="container">
+      <div class="cta-box">
+        <h2>ENSEMBLE, CONSTRUISONS L'AVENIR D'HAÏTI</h2>
+        <p>
+          Votre contribution transforme des vies et construit un avenir meilleur
+          pour les jeunes haïtiens. Chaque don compte pour offrir une éducation
+          de qualité et soutenir les projets d’EDHA.
+        </p>
+        <a href="https://TU_LINK_DE_PAYPAL" target="_blank" rel="noopener" class="btn btn-primary">
+          Soutenez notre mission
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact reveal" id="contact">
+    <div class="container contact-cols">
+      <div>
+        <div class="badge">Contactez EDHA</div>
+        <h2>Parlons de vos idées et de vos besoins.</h2>
+        <p>
+          EDHA est à l'écoute des jeunes, des familles, des écoles, des institutions
+          et des partenaires qui souhaitent collaborer pour le développement d'Haïti.
+        </p>
+      </div>
+      <div>
+        <h3>Informations de contact</h3>
+        <ul>
+          <li><strong>Adresse :</strong> Port-au-Prince, Haïti</li>
+          <li><strong>Téléphone :</strong> +509 XXXX-XXXX</li>
+          <li><strong>Email :</strong> info.edhaplus@gmail.com</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">EDHA</div>
+          <p>
+            EDHA est une organisation non gouvernementale, une institution éducative
+            moderne et un mouvement international dédié à l'autonomisation de la
+            jeunesse à travers l'éducation, la technologie et le développement social.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Liens rapides</h4>
+          <ul>
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#apropos">À propos</a></li>
+            <li><a href="#programmes">Programmes</a></li>
+            <li><a href="#formations">EDHA Academy</a></li>
+            <li><a href="#reseau">Réseau & International</a></li>
+            <li><a href="#don">Faire un don</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contactez-nous</h4>
+          <ul>
+            <li>Adresse : Port-au-Prince, Haïti</li>
+            <li>Téléphone : +509 XXXX-XXXX</li>
+            <li>Email : info.edhaplus@gmail.com</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2025 EDHA - Éducation et Développement pour le Progrès d’Haïti. Tous droits réservés.</span>
+        <span><a href="#accueil" style="color:#d9e2ec;">Retour en haut ↑</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BOUTON WHATSAPP (METTRE VOTRE NUMÉRO) -->
+  <a href="https://wa.me/509XXXXXXXX"
+     target="_blank"
+     rel="noopener"
+     class="whatsapp-float"
+     aria-label="Contacter EDHA sur WhatsApp">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+  </a>
+</body>
+</html>

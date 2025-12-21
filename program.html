@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Programme | EDHA</title>
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Optionnel : si tu as déjà une font/import dans styles.css, tu peux enlever -->
+</head>
+
+<body>
+  <!-- Header simple (tu peux copier ton header complet si tu veux le même menu) -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <strong>EDHA</strong>
+      </a>
+
+      <nav class="nav">
+        <a href="index.html#programmes">← Retour aux programmes</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container program-page">
+    <!-- Loading -->
+    <section id="programLoading" class="card">
+      <h1>Chargement du programme…</h1>
+      <p>Veuillez patienter.</p>
+    </section>
+
+    <!-- Error -->
+    <section id="programError" class="card hidden">
+      <h1>Programme introuvable</h1>
+      <p id="programErrorMsg">Impossible de charger ce programme.</p>
+      <p><a href="index.html#programmes">Retour</a></p>
+    </section>
+
+    <!-- Content -->
+    <section id="programContent" class="hidden">
+      <div class="program-hero card">
+        <p class="tag" id="programCategory">Programme</p>
+        <h1 id="programName">—</h1>
+        <p id="programDescription" class="muted">—</p>
+      </div>
+
+      <div class="grid-2">
+        <section class="card">
+          <h2>Axes / Actions</h2>
+          <ul id="programBullets" class="list"></ul>
+        </section>
+
+        <section class="card">
+          <h2>Détails</h2>
+          <ul class="meta">
+            <li><strong>Public cible :</strong> <span id="programAudience">—</span></li>
+            <li><strong>Lieu :</strong> <span id="programLocation">—</span></li>
+            <li><strong>Durée :</strong> <span id="programDuration">—</span></li>
+          </ul>
+        </section>
+      </div>
+
+      <section class="card">
+        <h2>Objectifs</h2>
+        <ul id="programObjectives" class="list"></ul>
+      </section>
+
+      <section class="card">
+        <h2>Articles publiés</h2>
+        <div id="programArticles" class="articles-grid"></div>
+        <p id="noArticles" class="muted hidden">Aucun article publié pour le moment.</p>
+      </section>
+    </section>
+  </main>
+
+  <script src="program.js"></script>
+</body>
+</html>
