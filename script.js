@@ -1,11 +1,13 @@
+
 // ====== CONFIG ======
-// ✅ Utilise l'API définie dans index.html (window.__EDHA_API__)
-// ✅ Fallback local si tu ouvres en localhost
-const API_BASE =
+// ✅ Utilise l'API définie dans index.html : window.__EDHA_API__
+// ✅ Fallback local si tu testes sur localhost/127.0.0.1
+const API_BASE = (
   (typeof window !== "undefined" && window.__EDHA_API__) ||
   ((location.hostname === "localhost" || location.hostname === "127.0.0.1")
     ? "http://127.0.0.1:5000"
-    : "");
+    : "")
+).replace(/\/$/, "");
 
 if (!API_BASE) {
   console.warn(
@@ -14,6 +16,7 @@ if (!API_BASE) {
 }
 
 const PROGRAMS_ENDPOINT = `${API_BASE}/api/programs`;
+
 
 // ====== HELPERS ======
 function escapeHTML(value) {
@@ -185,10 +188,86 @@ function setupAcademyTabs() {
   });
 }
 
-// ====== INIT ======
+// ====== FORMS (Volunteer + Partner) ======
+async function postJSON(url, data, { timeoutMs = 8000 } = {}) {
+  const controller = new AbortController();
+  const t = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      signal: controller.signal,
+    });
+
+    const contentType = res.headers.get("content-type") || "";
+    const isJson = contentType.includes("application/json");
+    const body = isJson ? await res.json() : await res.text();
+
+    if (!res.ok) {
+      const msg =
+        (isJson && body && (body.error || body.message)) ||
+        `HTTP ${res.status}`;
+      throw new Error(msg);
+    }
+
+    return body;
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+function setupVolunteerForm() {
+  const form = document.getElementById("volunteerForm");
+  const msg = document.getElementById("volunteerMsg");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (msg) msg.textContent = "Envoi en cours…";
+
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    try {
+      await postJSON(`${API_BASE}/api/volunteers`, data);
+      form.reset();
+      if (msg) msg.textContent = "✅ Merci ! Votre demande bénévole a été envoyée.";
+    } catch (err) {
+      console.error(err);
+      if (msg) msg.textContent = `❌ Erreur : ${err.message || "Impossible d’envoyer."}`;
+    }
+  });
+}
+
+function setupPartnerForm() {
+  const form = document.getElementById("partnerForm");
+  const msg = document.getElementById("partnerMsg");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (msg) msg.textContent = "Envoi en cours…";
+
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    try {
+      await postJSON(`${API_BASE}/api/partners`, data);
+      form.reset();
+      if (msg) msg.textContent = "✅ Merci ! Votre demande partenaire a été envoyée.";
+    } catch (err) {
+      console.error(err);
+      if (msg) msg.textContent = `❌ Erreur : ${err.message || "Impossible d’envoyer."}`;
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   setupNavbar();
   setupReveal();
   setupAcademyTabs();
   loadPrograms();
+
+  setupVolunteerForm();
+  setupPartnerForm();
 });

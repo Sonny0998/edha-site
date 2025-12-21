@@ -20,8 +20,7 @@
 
 <body>
   <!-- TRADUCTEUR AUTOMATIQUE FR / EN / ES / HT -->
-  <div id="google_translate_element"
-       style="position:fixed;top:4.8rem;right:1rem;z-index:60;"></div>
+  <div id="google_translate_element" style="position:fixed;top:4.8rem;right:1rem;z-index:60;"></div>
   <script>
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
@@ -91,14 +90,12 @@
       </div>
 
       <aside class="hero-card hero-card-image">
-        <!-- ✅ corrigé selon ta structure (assets/) -->
-        <img src="assets/edha-bg.jpg"
-             alt="Jeunes d’Haïti en formation avec EDHA">
+        <img src="assets/edha-bg.jpg" alt="Jeunes d’Haïti en formation avec EDHA">
       </aside>
     </div>
   </section>
 
-  <!-- AXES PRINCIPAUX (vision globale) -->
+  <!-- AXES PRINCIPAUX -->
   <section class="axes reveal" id="instructions">
     <div class="container">
       <div class="section-header">
@@ -208,7 +205,7 @@
     </div>
   </section>
 
-  <!-- ✅ PROGRAMMES (chargés depuis le backend) -->
+  <!-- PROGRAMMES -->
   <section class="programmes reveal" id="programmes">
     <div class="container">
       <div class="section-header">
@@ -224,7 +221,7 @@
     </div>
   </section>
 
-  <!-- EDHA ACADEMY (PROGRAMMES DETAILLES) -->
+  <!-- EDHA ACADEMY -->
   <section class="academy reveal" id="formations">
     <div class="container">
       <div class="section-header">
@@ -333,7 +330,7 @@
     </div>
   </section>
 
-  <!-- RÉSEAU NATIONAL & INTERNATIONAL + VISION 2035 -->
+  <!-- RÉSEAU -->
   <section class="network reveal" id="reseau">
     <div class="container">
       <div class="section-header">
@@ -390,7 +387,7 @@
     </div>
   </section>
 
-  <!-- FORMULARIOS: BÉNÉVOLES / PARTENAIRES -->
+  <!-- ✅ FORMULAIRES -->
   <section id="notes" class="reveal">
     <div class="container">
       <div class="section-header">
@@ -403,57 +400,71 @@
       </div>
 
       <div class="join-grid">
+        <!-- BÉNÉVOLES -->
         <article class="join-card">
           <h3>Pour les Bénévoles</h3>
           <p>
             Rejoignez nos projets communautaires et contribuez activement au
             développement local.
           </p>
-          <form action="mailto:info.edhaplus@gmail.com" method="post" enctype="text/plain">
+
+          <form id="volunteerForm">
             <div class="form-group">
               <label>Nom complet</label>
               <input type="text" name="nom" required>
             </div>
+
             <div class="form-group">
               <label>E-mail</label>
               <input type="email" name="email" required>
             </div>
+
             <div class="form-group">
               <label>Compétences / profil</label>
               <textarea name="competences" placeholder="Ex: enseignant, infirmier, développeur, animateur…"></textarea>
             </div>
+
             <div class="form-group">
               <label>Disponibilité</label>
               <input type="text" name="disponibilite" placeholder="Ex: week-end, soirées…">
             </div>
+
             <button class="btn btn-outline" type="submit">Rejoindre comme bénévole</button>
+            <p id="volunteerMsg" class="muted" style="margin-top:10px;"></p>
           </form>
         </article>
 
+        <!-- PARTENAIRES -->
         <article class="join-card">
           <h3>Pour les Partenaires</h3>
           <p>
             Soutenez nos initiatives pour la jeunesse et devenez acteur du
             changement en Haïti.
           </p>
-          <form action="mailto:info.edhaplus@gmail.com" method="post" enctype="text/plain">
+
+          <form id="partnerForm">
             <div class="form-group">
               <label>Organisation / Institution</label>
               <input type="text" name="organisation">
             </div>
+
             <div class="form-group">
               <label>Personne contact</label>
               <input type="text" name="personne_contact">
             </div>
+
             <div class="form-group">
               <label>E-mail</label>
               <input type="email" name="email" required>
             </div>
+
             <div class="form-group">
               <label>Type de collaboration souhaitée</label>
               <textarea name="collaboration" placeholder="Financement, expertise, partenariat académique, etc."></textarea>
             </div>
+
             <button class="btn btn-outline" type="submit">Nous contacter</button>
+            <p id="partnerMsg" class="muted" style="margin-top:10px;"></p>
           </form>
         </article>
       </div>
@@ -542,7 +553,7 @@
     </div>
   </footer>
 
-  <!-- BOUTON WHATSAPP (METTRE VOTRE NUMÉRO) -->
+  <!-- BOUTON WHATSAPP -->
   <a href="https://wa.me/509XXXXXXXX"
      target="_blank"
      rel="noopener"
