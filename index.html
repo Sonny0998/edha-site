@@ -1,3 +1,6 @@
+<!-- =========================
+FILE: index.html
+========================= -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -40,7 +43,6 @@
       <nav class="nav-links">
         <a href="#accueil">Accueil</a>
         <a href="#apropos">À propos</a>
-        <!-- ✅ FIX: supprimé #programmes (n'existe pas) -->
         <a href="#formations">Programmes</a>
         <a href="#formations">EDHA Academy</a>
         <a href="#reseau">Réseau & International</a>
@@ -78,7 +80,6 @@
         </p>
         <div class="hero-cta">
           <a href="#formations" class="btn btn-primary">Découvrir EDHA Academy</a>
-          <!-- ✅ FIX: renvoie vers une section existante -->
           <a href="#formations" class="btn btn-outline">Voir nos programmes</a>
         </div>
         <div class="hero-meta">
@@ -215,7 +216,7 @@
     </div>
   </section>
 
-  <!-- EDHA ACADEMY (✅ pro) -->
+  <!-- EDHA ACADEMY -->
   <section class="academy reveal academy--pro" id="formations">
     <div class="container">
       <div class="section-header">
@@ -265,9 +266,7 @@
               <li>Actions humanitaires, soutien social et projets communautaires.</li>
               <li>Développement local et accompagnement des communautés.</li>
             </ul>
-            <a class="detail-link" href="formations/edha-organisation.html">
-              → Page détaillée du programme
-            </a>
+            
           </div>
 
           <div class="academy-panel" id="sante">
@@ -281,9 +280,7 @@
               <li>Formations en premiers secours et gestes qui sauvent.</li>
               <li>Soutien psychosocial, santé mentale et journées médicales.</li>
             </ul>
-            <a class="detail-link" href="formations/edha-sante-jeunesse.html">
-              → Page détaillée du programme
-            </a>
+            
           </div>
 
           <div class="academy-panel" id="edu">
@@ -298,9 +295,7 @@
               <li>Citoyenneté et civisme : droits, devoirs et participation responsable.</li>
               <li>Valeurs sociales, identité culturelle, discipline et leadership communautaire.</li>
             </ul>
-            <a class="detail-link" href="formations/edha-education-citoyen.html">
-              → Page détaillée du programme
-            </a>
+            
           </div>
 
           <div class="academy-panel" id="tech-innov">
@@ -315,9 +310,7 @@
               <li>Robotique, électronique, intelligence artificielle et innovation sociale.</li>
               <li>Créativité numérique, multimédia et entrepreneuriat technologique.</li>
             </ul>
-            <a class="detail-link" href="formations/edha-technologie-innovation.html">
-              → Page détaillée du programme
-            </a>
+
           </div>
         </article>
       </div>
@@ -466,7 +459,7 @@
           <div class="network-more" id="network-more-4" hidden>
             <ul class="network-list">
               <li><strong>EDHA Université :</strong> institution d’enseignement supérieur moderne (technologie, santé, gestion, entrepreneuriat, sciences humaines, innovation).</li>
-              <li><strong>EDHA TV :</strong> chaîne télévisive éducative nationale (émissions éducatives, cours, programmes culturels et technologiques).</li>
+              <li><strong>EDHA TV :</strong> chaîne télévisée éducative nationale (émissions éducatives, cours, programmes culturels et technologiques).</li>
               <li><strong>EDHAC – EDHA Caraïbes :</strong> unifier les étudiants de la région caribéenne.</li>
               <li><strong>EDHA Monde :</strong> mouvement éducatif et technologique global ouvert à toutes les nations.</li>
               <li>Objectif : renforcer l’accès à la connaissance, à la formation et à l’innovation.</li>
@@ -497,7 +490,6 @@
           les actions communautaires et les projets d’EDHA.
         </p>
         <p class="muted" style="margin-top:10px;">
-          ✅ Ces formulaires envoient maintenant réellement un e-mail via Formspree.
         </p>
       </div>
 
@@ -509,15 +501,19 @@
             développement local.
           </p>
 
-          <!-- ✅ FORM: remplace action par ton endpoint Formspree -->
+          <!-- ✅ FORM: Bénévole -->
           <form id="volunteerForm"
                 class="js-formspree"
                 action="https://formspree.io/f/xwveyoww"
                 method="POST"
                 accept-charset="UTF-8"
                 data-form-label="Bénévole">
+
             <!-- anti-spam -->
             <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+            <!-- ✅ Sujet email Formspree -->
+            <input type="hidden" name="_subject" value="EDHA – Nouvelle inscription bénévole">
 
             <input type="hidden" name="formType" value="Bénévole">
             <input type="hidden" name="page" value="">
@@ -543,6 +539,12 @@
               <input id="vol_avail" type="text" name="disponibilite" placeholder="Ex: week-end, soirées…">
             </div>
 
+            <!-- ✅ Ajout: message optionnel pour avoir un contenu clair dans l’email -->
+            <div class="form-group">
+              <label for="vol_msg">Message (optionnel)</label>
+              <textarea id="vol_msg" name="message" placeholder="Dites-nous en plus sur votre motivation…"></textarea>
+            </div>
+
             <button class="btn btn-outline" type="submit">Rejoindre comme bénévole</button>
             <p id="volunteerMsg" class="form-msg" role="status" aria-live="polite" style="margin-top:10px;"></p>
           </form>
@@ -555,15 +557,19 @@
             changement en Haïti.
           </p>
 
-          <!-- ✅ FORM: remplace action par ton endpoint Formspree -->
+          <!-- ✅ FORM: Partenaire -->
           <form id="partnerForm"
                 class="js-formspree"
                 action="https://formspree.io/f/xwveyoyw"
                 method="POST"
                 accept-charset="UTF-8"
                 data-form-label="Partenaire">
+
             <!-- anti-spam -->
             <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+            <!-- ✅ Sujet email Formspree -->
+            <input type="hidden" name="_subject" value="EDHA – Nouvelle demande partenaire">
 
             <input type="hidden" name="formType" value="Partenaire">
             <input type="hidden" name="page" value="">
@@ -589,6 +595,12 @@
               <textarea id="par_type" name="collaboration" placeholder="Financement, expertise, partenariat académique, etc."></textarea>
             </div>
 
+            <!-- ✅ Ajout: message optionnel -->
+            <div class="form-group">
+              <label for="par_msg">Message (optionnel)</label>
+              <textarea id="par_msg" name="message" placeholder="Expliquez votre demande…"></textarea>
+            </div>
+
             <button class="btn btn-outline" type="submit">Nous contacter</button>
             <p id="partnerMsg" class="form-msg" role="status" aria-live="polite" style="margin-top:10px;"></p>
           </form>
@@ -607,7 +619,6 @@
           pour les jeunes haïtiens. Chaque don compte pour offrir une éducation
           de qualité et soutenir les projets d’EDHA.
         </p>
-        <!-- ✅ PayPal: remplace par ton vrai lien -->
         <a href="https://TU_LINK_DE_PAYPAL" target="_blank" rel="noopener" class="btn btn-primary">
           Soutenez notre mission
         </a>
@@ -655,7 +666,6 @@
           <ul>
             <li><a href="#accueil">Accueil</a></li>
             <li><a href="#apropos">À propos</a></li>
-            <!-- ✅ FIX: supprimé #programmes (n'existe pas) -->
             <li><a href="#formations">Programmes</a></li>
             <li><a href="#formations">EDHA Academy</a></li>
             <li><a href="#reseau">Réseau & International</a></li>
@@ -668,7 +678,7 @@
           <h4>Contactez-nous</h4>
           <ul>
             <li>Adresse : Port-au-Prince, Haïti</li>
-            <li>Téléphone : +509 XXXX-XXXX</li>
+            <li>Téléphone : 16033498882</li>
             <li>Email : info.edhaplus@gmail.com</li>
           </ul>
         </div>
@@ -682,9 +692,7 @@
   </footer>
 
   <!-- BOUTON WHATSAPP -->
-  <!-- ✅ WhatsApp: remplace +16033498882 par ton vrai numéro (sans espaces) -->
-  <!-- ✅ Tu peux aussi modifier le texte pré-rempli -->
-  <a href="https://wa.me/+16033498882?text=Bonjour%20EDHA%2C%20je%20souhaite%20plus%20d%27informations."
+  <a href="https://wa.me/16033498882?text=Bonjour%20EDHA%2C%20je%20souhaite%20plus%20d%27informations."
      target="_blank"
      rel="noopener"
      class="whatsapp-float"

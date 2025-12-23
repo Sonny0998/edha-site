@@ -1,3 +1,9 @@
+/* =========================
+FILE: script.js
+✅ Corrigé: Formspree envoie maintenant TOUS les champs (email non vide)
+✅ Ajout: sujet propre + message optionnel déjà géré dans HTML
+========================= */
+
 // ====== DATA (statique / local) ======
 const PROGRAMS = [
   {
@@ -86,7 +92,7 @@ function setupNavbar() {
       );
     });
 
-    // ✅ Bonus: fermer le menu quand on clique un lien (mobile)
+    // fermer le menu quand on clique un lien (mobile)
     links.querySelectorAll("a").forEach((a) => {
       a.addEventListener("click", () => {
         if (!links.classList.contains("nav-links--open")) return;
@@ -118,7 +124,7 @@ function setupReveal() {
   items.forEach((el) => obs.observe(el));
 }
 
-// ✅ Anim pro uniquement pour À propos
+// Anim pro uniquement pour À propos
 function setupAboutPro() {
   const section = document.querySelector(".about--pro");
   if (!section) return;
@@ -143,7 +149,7 @@ function setupAboutPro() {
   obs.observe(section);
 }
 
-// ✅ Academy pro: reveal menu + content
+// Academy pro
 function setupAcademyPro() {
   const section = document.querySelector(".academy--pro");
   if (!section) return;
@@ -168,7 +174,7 @@ function setupAcademyPro() {
   obs.observe(section);
 }
 
-// ✅ Network pro: stagger cards
+// Network pro: stagger cards
 function setupNetworkPro() {
   const section = document.querySelector(".network--pro");
   if (!section) return;
@@ -201,7 +207,7 @@ function setupNetworkPro() {
   obs.observe(section);
 }
 
-// ✅ "Voir plus / Réduire" : tout le contenu est dans network-more
+// "Voir plus / Réduire"
 function setupNetworkExpand() {
   const cards = document.querySelectorAll("[data-network-card]");
   if (!cards.length) return;
@@ -290,7 +296,7 @@ function setupNetworkExpand() {
   });
 }
 
-// ✅ Tabs EDHA Academy
+// Tabs EDHA Academy
 function setupAcademyTabs() {
   const tabs = document.querySelectorAll(".academy-tab");
   const panels = document.querySelectorAll(".academy-panel");
@@ -317,7 +323,7 @@ function setupAcademyTabs() {
   });
 }
 
-// ====== FORMS (Formspree: envoi email réel) ======
+// ====== FORMS (Formspree) ======
 function setMsg(el, type, text) {
   if (!el) return;
   el.textContent = text || "";
@@ -325,12 +331,15 @@ function setMsg(el, type, text) {
   if (type) el.classList.add(type);
 }
 
+// ✅ IMPORTANT: on peut désactiver visuellement,
+// MAIS on ne doit JAMAIS désactiver avant d’avoir construit FormData.
 function setSubmitting(form, submitting) {
   const btn = form.querySelector('button[type="submit"]');
   if (btn) btn.disabled = submitting;
 
   const inputs = form.querySelectorAll("input, textarea, select, button");
   inputs.forEach((i) => {
+    // on laisse le bouton gérer son état
     if (i === btn) return;
     i.disabled = submitting;
   });
@@ -352,7 +361,6 @@ async function postFormspree(form, msgEl) {
   // anti-spam honeypot
   const gotcha = form.querySelector('input[name="_gotcha"]');
   if (gotcha && gotcha.value.trim() !== "") {
-    // silencieux
     setMsg(msgEl, "is-success", "✅ Merci ! Votre message a été envoyé.");
     form.reset();
     return;
@@ -365,14 +373,23 @@ async function postFormspree(form, msgEl) {
   if (ts) ts.value = new Date().toISOString();
 
   const label = form.dataset.formLabel || "Formulaire";
+
+  // ✅ CRITIQUE: construire FormData AVANT de désactiver les champs
+  const formData = new FormData(form);
+
+  // champs supplémentaires utiles pour l’email
+  formData.set("source", "edha-site");
+  formData.set("label", label);
+
+  // sujet (si jamais tu enlèves le hidden _subject, ceci le remet)
+  if (!formData.get("_subject")) {
+    formData.set("_subject", `EDHA – Nouvelle demande (${label})`);
+  }
+
   setSubmitting(form, true);
   setMsg(msgEl, "is-loading", "⏳ Envoi en cours…");
 
   try {
-    const formData = new FormData(form);
-    formData.set("source", "edha-site");
-    formData.set("label", label);
-
     const res = await fetch(action, {
       method: "POST",
       headers: { Accept: "application/json" },
@@ -437,10 +454,8 @@ document.addEventListener("DOMContentLoaded", () => {
   setupNetworkPro();
 
   setupNetworkExpand();
-
   setupAcademyTabs();
   loadProgramsStatic();
 
-  // ✅ Remplace les “demo forms” par des formulaires réels (Formspree)
   setupRealForms();
 });

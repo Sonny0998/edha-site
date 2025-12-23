@@ -1,3 +1,8 @@
+/* =========================
+FILE: styles.css
+(ton CSS complet, inchangé sauf aucun besoin pour Formspree)
+========================= */
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 :root {
@@ -380,7 +385,7 @@ header.header-scrolled {
 .network-list li { margin-bottom: 0.28rem; }
 .network-list strong { color: var(--dark); }
 
-/* ✅ IMPORTANT: hidden normal */
+/* hidden normal */
 .network-more[hidden] { display: none; }
 
 .network-more {
@@ -436,7 +441,7 @@ header.header-scrolled {
 
 .network-card.is-open .network-toggle-icon { transform: none; }
 
-/* ✅ Animation pro (stagger) conservée */
+/* Animation pro */
 .network--pro .network-card {
   opacity: 0;
   transform: translateY(14px);
@@ -471,7 +476,7 @@ input:focus, select:focus, textarea:focus {
 }
 textarea { min-height: 80px; resize: vertical; }
 
-/* ✅ Messages pro (succès/erreur/chargement) */
+/* Messages pro */
 .form-msg {
   font-size: 0.84rem;
   padding: 0.65rem 0.75rem;
@@ -479,7 +484,7 @@ textarea { min-height: 80px; resize: vertical; }
   border: 1px solid rgba(15, 23, 42, 0.10);
   background: rgba(15, 23, 42, 0.03);
   color: #394a60;
-  min-height: 2.3rem; /* évite le saut de layout */
+  min-height: 2.3rem;
 }
 .form-msg.is-success {
   border-color: rgba(16, 185, 129, 0.35);
@@ -497,7 +502,7 @@ textarea { min-height: 80px; resize: vertical; }
   color: #5b4b10;
 }
 
-/* ✅ Honeypot caché */
+/* Honeypot caché */
 .hp-field {
   position: absolute !important;
   left: -9999px !important;
@@ -507,14 +512,9 @@ textarea { min-height: 80px; resize: vertical; }
   pointer-events: none !important;
 }
 
-/* ✅ Form envoi: feedback visuel */
-form.is-submitting {
-  opacity: 0.92;
-}
-form.is-submitting button[type="submit"] {
-  opacity: 0.75;
-  cursor: not-allowed;
-}
+/* Form envoi */
+form.is-submitting { opacity: 0.92; }
+form.is-submitting button[type="submit"] { opacity: 0.75; cursor: not-allowed; }
 
 /* CTA DON */
 .cta-don { text-align: center; }
@@ -573,7 +573,7 @@ footer { background: #020a12; color: #d9e2ec; padding: 2.2rem 0 2.5rem; font-siz
 }
 .whatsapp-float img { width: 28px; height: 28px; }
 
-/* HOVER ANIMATIONS SUR LES CARTES */
+/* HOVER ANIMATIONS */
 .axis-card, .network-card, .join-card {
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
@@ -586,7 +586,7 @@ footer { background: #020a12; color: #d9e2ec; padding: 2.2rem 0 2.5rem; font-siz
 .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
-/* ✅ Google Translate: éviter certains styles injectés qui cassent le layout */
+/* Google Translate */
 .goog-te-banner-frame.skiptranslate { display: none !important; }
 body { top: 0 !important; }
 
@@ -633,7 +633,7 @@ body { top: 0 !important; }
   .network-icon { width: 48px; height: 48px; border-radius: 1.1rem; }
 }
 
-/* ✅ Accessibilité: réduire les animations si l’utilisateur le demande */
+/* Accessibilité: réduire les animations */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
