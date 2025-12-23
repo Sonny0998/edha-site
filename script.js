@@ -1,22 +1,42 @@
-
-// ====== CONFIG ======
-// ✅ Utilise l'API définie dans index.html : window.__EDHA_API__
-// ✅ Fallback local si tu testes sur localhost/127.0.0.1
-const API_BASE = (
-  (typeof window !== "undefined" && window.__EDHA_API__) ||
-  ((location.hostname === "localhost" || location.hostname === "127.0.0.1")
-    ? "http://127.0.0.1:5000"
-    : "")
-).replace(/\/$/, "");
-
-if (!API_BASE) {
-  console.warn(
-    "⚠️ API_BASE vide. Définis window.__EDHA_API__ dans index.html (ex: https://ton-backend.onrender.com)"
-  );
-}
-
-const PROGRAMS_ENDPOINT = `${API_BASE}/api/programs`;
-
+// ====== DATA (statique / local) ======
+const PROGRAMS = [
+  {
+    name: "EDHA Organisation",
+    description: "Département social, humanitaire et développement communautaire.",
+    bullets: [
+      "Initiatives pour enfants, adolescents et familles vulnérables",
+      "Actions humanitaires et soutien social",
+      "Projets communautaires et développement local",
+    ],
+  },
+  {
+    name: "EDHA Santé Jeunesse",
+    description: "Santé physique, mentale, prévention et bien-être des jeunes.",
+    bullets: [
+      "Campagnes de prévention et éducation sanitaire",
+      "Premiers secours et gestes qui sauvent",
+      "Soutien psychosocial et journées médicales",
+    ],
+  },
+  {
+    name: "EDHA Éducation & Citoyen",
+    description: "Civisme, valeurs, accompagnement scolaire et leadership.",
+    bullets: [
+      "Soutien scolaire et accompagnement académique",
+      "Droits, devoirs, civisme et participation citoyenne",
+      "Valeurs sociales, discipline et leadership communautaire",
+    ],
+  },
+  {
+    name: "EDHA Technologie & Innovation",
+    description: "Programmation, robotique, IA et créativité numérique.",
+    bullets: [
+      "Cours de programmation (Python, Web, mobile, bases de données)",
+      "Robotique, électronique, intelligence artificielle",
+      "Entrepreneuriat technologique et projets innovants",
+    ],
+  },
+];
 
 // ====== HELPERS ======
 function escapeHTML(value) {
@@ -29,100 +49,26 @@ function escapeHTML(value) {
     .replaceAll("'", "&#039;");
 }
 
-/**
- * Fetch avec timeout pour éviter de rester bloqué si le backend ne répond pas
- */
-async function fetchJSON(url, { timeoutMs = 8000, ...options } = {}) {
-  const controller = new AbortController();
-  const t = setTimeout(() => controller.abort(), timeoutMs);
-
-  try {
-    const res = await fetch(url, {
-      method: "GET",
-      ...options,
-      signal: controller.signal,
-    });
-
-    const contentType = res.headers.get("content-type") || "";
-    const isJson = contentType.includes("application/json");
-    const body = isJson ? await res.json() : await res.text();
-
-    if (!res.ok) {
-      const msg =
-        (isJson && body && (body.error || body.message)) ||
-        `HTTP ${res.status}`;
-      throw new Error(msg);
-    }
-
-    return body;
-  } finally {
-    clearTimeout(t);
-  }
-}
-
-// ====== RENDER ======
+// ====== RENDER PROGRAMMES (statique) ======
 function createProgramCard(program) {
   const name = escapeHTML(program.name);
   const desc = escapeHTML(program.description || "");
   const bullets = Array.isArray(program.bullets) ? program.bullets : [];
-  const slug = program.slug ? encodeURIComponent(program.slug) : "";
-
-  const bulletsHtml = bullets
-    .map((b) => `<li>${escapeHTML(b)}</li>`)
-    .join("");
-
-  const detailsLink = slug
-    ? `<a class="detail-link" href="program.html?slug=${slug}">→ Page détaillée du programme</a>`
-    : "";
+  const bulletsHtml = bullets.map((b) => `<li>${escapeHTML(b)}</li>`).join("");
 
   return `
     <article class="programme-card">
       <h3>${name}</h3>
       <p class="programme-sub">${desc}</p>
-
       ${bullets.length ? `<ul>${bulletsHtml}</ul>` : ""}
-
-      ${detailsLink}
     </article>
   `;
 }
 
-async function loadPrograms() {
+function loadProgramsStatic() {
   const grid = document.getElementById("programmesGrid");
   if (!grid) return;
-
-  grid.innerHTML = `<p style="color:#6b7b93;">Chargement des programmes...</p>`;
-
-  try {
-    const json = await fetchJSON(PROGRAMS_ENDPOINT, { timeoutMs: 8000 });
-
-    // ✅ Backend renvoie: { success:true, count, data:[...] }
-    const programs = Array.isArray(json.data) ? json.data : [];
-
-    if (programs.length === 0) {
-      grid.innerHTML = `<p style="color:#6b7b93;">Aucun programme disponible.</p>`;
-      return;
-    }
-
-    // ✅ Assurer un ordre stable si jamais la DB renvoie dans un autre ordre
-    programs.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-
-    grid.innerHTML = programs.map(createProgramCard).join("");
-  } catch (err) {
-    console.error("Erreur loadPrograms:", err);
-
-    const isAbort = String(err?.name).toLowerCase().includes("abort");
-    const message = isAbort
-      ? "Le serveur met trop de temps à répondre."
-      : escapeHTML(err?.message || "Erreur inconnue");
-
-    grid.innerHTML = `
-      <p style="color:#b91c1c; line-height:1.5;">
-        Erreur de chargement des programmes : <strong>${message}</strong><br/>
-        Vérifie que le backend tourne sur <strong>${escapeHTML(API_BASE)}</strong> et que CORS autorise ton site.
-      </p>
-    `;
-  }
+  grid.innerHTML = PROGRAMS.map(createProgramCard).join("");
 }
 
 // ====== NAV + UI ======
@@ -138,6 +84,15 @@ function setupNavbar() {
         "aria-expanded",
         links.classList.contains("nav-links--open") ? "true" : "false"
       );
+    });
+
+    // ✅ Bonus: fermer le menu quand on clique un lien (mobile)
+    links.querySelectorAll("a").forEach((a) => {
+      a.addEventListener("click", () => {
+        if (!links.classList.contains("nav-links--open")) return;
+        links.classList.remove("nav-links--open");
+        toggle.setAttribute("aria-expanded", "false");
+      });
     });
   }
 
@@ -163,20 +118,194 @@ function setupReveal() {
   items.forEach((el) => obs.observe(el));
 }
 
-/**
- * ✅ Tabs EDHA Academy (tes boutons existent mais n’étaient pas connectés)
- */
+// ✅ Anim pro uniquement pour À propos
+function setupAboutPro() {
+  const section = document.querySelector(".about--pro");
+  if (!section) return;
+
+  const reduce =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reduce) return;
+
+  const obs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        section.classList.add("about-ready");
+        obs.disconnect();
+      });
+    },
+    { threshold: 0.18 }
+  );
+
+  obs.observe(section);
+}
+
+// ✅ Academy pro: reveal menu + content
+function setupAcademyPro() {
+  const section = document.querySelector(".academy--pro");
+  if (!section) return;
+
+  const reduce =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reduce) return;
+
+  const obs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        section.classList.add("academy-ready");
+        obs.disconnect();
+      });
+    },
+    { threshold: 0.18 }
+  );
+
+  obs.observe(section);
+}
+
+// ✅ Network pro: stagger cards
+function setupNetworkPro() {
+  const section = document.querySelector(".network--pro");
+  if (!section) return;
+
+  const cards = section.querySelectorAll(".network-card");
+  cards.forEach((card, i) => {
+    card.style.setProperty("--d", `${0.06 + i * 0.08}s`);
+  });
+
+  const reduce =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reduce) {
+    section.classList.add("network-ready");
+    return;
+  }
+
+  const obs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        section.classList.add("network-ready");
+        obs.disconnect();
+      });
+    },
+    { threshold: 0.16 }
+  );
+
+  obs.observe(section);
+}
+
+// ✅ "Voir plus / Réduire" : tout le contenu est dans network-more
+function setupNetworkExpand() {
+  const cards = document.querySelectorAll("[data-network-card]");
+  if (!cards.length) return;
+
+  const reduce =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function setOpen(card, open) {
+    const btn = card.querySelector("[data-network-toggle]");
+    const moreId = btn?.getAttribute("aria-controls");
+    const more = moreId ? document.getElementById(moreId) : null;
+
+    if (!btn || !more) return;
+
+    card.classList.toggle("is-open", open);
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+
+    const text = btn.querySelector(".network-toggle-text");
+    const icon = btn.querySelector(".network-toggle-icon");
+    if (text) text.textContent = open ? "Réduire" : "Voir plus";
+    if (icon) icon.textContent = open ? "−" : "＋";
+
+    if (reduce) {
+      more.hidden = !open;
+      more.style.maxHeight = open ? "none" : "0px";
+      more.style.opacity = open ? "1" : "0";
+      more.style.transform = open ? "translateY(0)" : "translateY(-4px)";
+      return;
+    }
+
+    if (open) {
+      more.hidden = false;
+      more.style.maxHeight = "0px";
+      more.offsetHeight; // reflow
+      more.style.maxHeight = more.scrollHeight + "px";
+    } else {
+      more.style.maxHeight = more.scrollHeight + "px";
+      more.offsetHeight; // reflow
+      more.style.maxHeight = "0px";
+    }
+  }
+
+  cards.forEach((card) => {
+    const btn = card.querySelector("[data-network-toggle]");
+    const moreId = btn?.getAttribute("aria-controls");
+    const more = moreId ? document.getElementById(moreId) : null;
+    if (!btn || !more) return;
+
+    // init closed
+    more.hidden = true;
+    more.style.maxHeight = "0px";
+
+    // init text/icon
+    const text = btn.querySelector(".network-toggle-text");
+    const icon = btn.querySelector(".network-toggle-icon");
+    if (text) text.textContent = "Voir plus";
+    if (icon) icon.textContent = "＋";
+
+    btn.addEventListener("click", () => {
+      const open = !card.classList.contains("is-open");
+      setOpen(card, open);
+    });
+
+    more.addEventListener("transitionend", (e) => {
+      if (e.propertyName !== "max-height") return;
+      const isOpen = card.classList.contains("is-open");
+      if (!isOpen) {
+        more.hidden = true;
+      } else {
+        more.style.maxHeight = more.scrollHeight + "px";
+      }
+    });
+  });
+
+  window.addEventListener("resize", () => {
+    if (reduce) return;
+    cards.forEach((card) => {
+      if (!card.classList.contains("is-open")) return;
+      const btn = card.querySelector("[data-network-toggle]");
+      const moreId = btn?.getAttribute("aria-controls");
+      const more = moreId ? document.getElementById(moreId) : null;
+      if (!more) return;
+      more.style.maxHeight = more.scrollHeight + "px";
+    });
+  });
+}
+
+// ✅ Tabs EDHA Academy
 function setupAcademyTabs() {
   const tabs = document.querySelectorAll(".academy-tab");
   const panels = document.querySelectorAll(".academy-panel");
-
   if (!tabs.length || !panels.length) return;
 
   function setActive(targetId) {
+    const next = document.getElementById(targetId);
+    if (!next) return;
+
     panels.forEach((p) => p.classList.toggle("active", p.id === targetId));
-    tabs.forEach((t) =>
-      t.classList.toggle("active", t.dataset.target === targetId)
-    );
+    tabs.forEach((t) => t.classList.toggle("active", t.dataset.target === targetId));
+
+    next.style.animation = "none";
+    next.offsetHeight;
+    next.style.animation = "";
   }
 
   tabs.forEach((btn) => {
@@ -188,86 +317,130 @@ function setupAcademyTabs() {
   });
 }
 
-// ====== FORMS (Volunteer + Partner) ======
-async function postJSON(url, data, { timeoutMs = 8000 } = {}) {
-  const controller = new AbortController();
-  const t = setTimeout(() => controller.abort(), timeoutMs);
+// ====== FORMS (Formspree: envoi email réel) ======
+function setMsg(el, type, text) {
+  if (!el) return;
+  el.textContent = text || "";
+  el.classList.remove("is-success", "is-error", "is-loading");
+  if (type) el.classList.add(type);
+}
+
+function setSubmitting(form, submitting) {
+  const btn = form.querySelector('button[type="submit"]');
+  if (btn) btn.disabled = submitting;
+
+  const inputs = form.querySelectorAll("input, textarea, select, button");
+  inputs.forEach((i) => {
+    if (i === btn) return;
+    i.disabled = submitting;
+  });
+
+  form.classList.toggle("is-submitting", submitting);
+}
+
+async function postFormspree(form, msgEl) {
+  const action = form.getAttribute("action") || "";
+  if (!action || action.includes("XXXXXXX") || action.includes("YYYYYYY")) {
+    setMsg(
+      msgEl,
+      "is-error",
+      "⚠️ Formulaire non configuré : remplace l’URL Formspree dans l’attribut action."
+    );
+    return;
+  }
+
+  // anti-spam honeypot
+  const gotcha = form.querySelector('input[name="_gotcha"]');
+  if (gotcha && gotcha.value.trim() !== "") {
+    // silencieux
+    setMsg(msgEl, "is-success", "✅ Merci ! Votre message a été envoyé.");
+    form.reset();
+    return;
+  }
+
+  // inject meta
+  const page = form.querySelector('input[name="page"]');
+  const ts = form.querySelector('input[name="timestamp"]');
+  if (page) page.value = window.location.href;
+  if (ts) ts.value = new Date().toISOString();
+
+  const label = form.dataset.formLabel || "Formulaire";
+  setSubmitting(form, true);
+  setMsg(msgEl, "is-loading", "⏳ Envoi en cours…");
 
   try {
-    const res = await fetch(url, {
+    const formData = new FormData(form);
+    formData.set("source", "edha-site");
+    formData.set("label", label);
+
+    const res = await fetch(action, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-      signal: controller.signal,
+      headers: { Accept: "application/json" },
+      body: formData,
     });
 
-    const contentType = res.headers.get("content-type") || "";
-    const isJson = contentType.includes("application/json");
-    const body = isJson ? await res.json() : await res.text();
-
-    if (!res.ok) {
-      const msg =
-        (isJson && body && (body.error || body.message)) ||
-        `HTTP ${res.status}`;
-      throw new Error(msg);
+    if (res.ok) {
+      setMsg(
+        msgEl,
+        "is-success",
+        "✅ Merci ! Votre demande a été envoyée avec succès. Nous vous contacterons bientôt."
+      );
+      form.reset();
+      return;
     }
 
-    return body;
+    let data = null;
+    try {
+      data = await res.json();
+    } catch {}
+
+    if (data && Array.isArray(data.errors) && data.errors.length) {
+      const details = data.errors.map((e) => e.message).join(" • ");
+      setMsg(msgEl, "is-error", `❌ Erreur : ${details}`);
+    } else {
+      setMsg(msgEl, "is-error", "❌ Une erreur est survenue. Veuillez réessayer plus tard.");
+    }
+  } catch (err) {
+    setMsg(msgEl, "is-error", "❌ Impossible d’envoyer (connexion). Réessaie dans quelques instants.");
   } finally {
-    clearTimeout(t);
+    setSubmitting(form, false);
   }
 }
 
-function setupVolunteerForm() {
-  const form = document.getElementById("volunteerForm");
-  const msg = document.getElementById("volunteerMsg");
-  if (!form) return;
+function setupRealForms() {
+  const volunteerForm = document.getElementById("volunteerForm");
+  const partnerForm = document.getElementById("partnerForm");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (msg) msg.textContent = "Envoi en cours…";
+  if (volunteerForm) {
+    const msg = document.getElementById("volunteerMsg");
+    volunteerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      postFormspree(volunteerForm, msg);
+    });
+  }
 
-    const data = Object.fromEntries(new FormData(form).entries());
-
-    try {
-      await postJSON(`${API_BASE}/api/volunteers`, data);
-      form.reset();
-      if (msg) msg.textContent = "✅ Merci ! Votre demande bénévole a été envoyée.";
-    } catch (err) {
-      console.error(err);
-      if (msg) msg.textContent = `❌ Erreur : ${err.message || "Impossible d’envoyer."}`;
-    }
-  });
-}
-
-function setupPartnerForm() {
-  const form = document.getElementById("partnerForm");
-  const msg = document.getElementById("partnerMsg");
-  if (!form) return;
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (msg) msg.textContent = "Envoi en cours…";
-
-    const data = Object.fromEntries(new FormData(form).entries());
-
-    try {
-      await postJSON(`${API_BASE}/api/partners`, data);
-      form.reset();
-      if (msg) msg.textContent = "✅ Merci ! Votre demande partenaire a été envoyée.";
-    } catch (err) {
-      console.error(err);
-      if (msg) msg.textContent = `❌ Erreur : ${err.message || "Impossible d’envoyer."}`;
-    }
-  });
+  if (partnerForm) {
+    const msg = document.getElementById("partnerMsg");
+    partnerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      postFormspree(partnerForm, msg);
+    });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   setupNavbar();
   setupReveal();
-  setupAcademyTabs();
-  loadPrograms();
 
-  setupVolunteerForm();
-  setupPartnerForm();
+  setupAboutPro();
+  setupAcademyPro();
+  setupNetworkPro();
+
+  setupNetworkExpand();
+
+  setupAcademyTabs();
+  loadProgramsStatic();
+
+  // ✅ Remplace les “demo forms” par des formulaires réels (Formspree)
+  setupRealForms();
 });

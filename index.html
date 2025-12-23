@@ -8,15 +8,7 @@
 
   <link rel="stylesheet" href="styles.css">
 
-  <!-- ✅ API BASE (LOCAL pour le moment)
-       Plus tard, remplace par https://ton-backend.onrender.com -->
-  <script>
-  window.__EDHA_API__ = "https://edha-backend.onrender.com";
-</script>
-<script src="script.js"></script>
-
-
-  <!-- ✅ Ton JS principal -->
+  <!-- ✅ JS principal (1 seule fois) -->
   <script src="script.js" defer></script>
 </head>
 
@@ -48,7 +40,8 @@
       <nav class="nav-links">
         <a href="#accueil">Accueil</a>
         <a href="#apropos">À propos</a>
-        <a href="#programmes">Programmes</a>
+        <!-- ✅ FIX: supprimé #programmes (n'existe pas) -->
+        <a href="#formations">Programmes</a>
         <a href="#formations">EDHA Academy</a>
         <a href="#reseau">Réseau & International</a>
         <a href="#contact">Contact</a>
@@ -58,11 +51,13 @@
         <button class="lang-switch" type="button" aria-label="Langues disponibles via Google Translate">
           FR · EN · ES · HT
         </button>
+
+        <!-- ✅ PayPal: remplace par ton vrai lien -->
         <a href="https://TU_LINK_DE_PAYPAL" target="_blank" rel="noopener" class="btn btn-primary">
           Faire un don
         </a>
 
-        <button class="nav-toggle" type="button" aria-label="Ouvrir le menu">☰</button>
+        <button class="nav-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
       </div>
     </div>
   </header>
@@ -83,7 +78,8 @@
         </p>
         <div class="hero-cta">
           <a href="#formations" class="btn btn-primary">Découvrir EDHA Academy</a>
-          <a href="#programmes" class="btn btn-outline">Voir nos programmes</a>
+          <!-- ✅ FIX: renvoie vers une section existante -->
+          <a href="#formations" class="btn btn-outline">Voir nos programmes</a>
         </div>
         <div class="hero-meta">
           <span><strong>Mission :</strong> former, accompagner, soutenir et inspirer les jeunes</span>
@@ -113,6 +109,9 @@
       <div class="axes-grid">
         <article class="axis-card">
           <div class="axis-number">01</div>
+          <div class="axis-media">
+            <img src="assets/Education.png" alt="Éducation et formation">
+          </div>
           <h3>ÉDUCATION ET FORMATION INTÉGRALE</h3>
           <p>
             Accès à une éducation de base, secondaire et supérieure de qualité,
@@ -122,6 +121,9 @@
 
         <article class="axis-card">
           <div class="axis-number">02</div>
+          <div class="axis-media">
+            <img src="assets/Tecnologie.png" alt="Technologie et innovation">
+          </div>
           <h3>TECHNOLOGIE & INNOVATION</h3>
           <p>
             Cours de programmation, robotique, IA, créativité numérique et
@@ -131,6 +133,9 @@
 
         <article class="axis-card">
           <div class="axis-number">03</div>
+          <div class="axis-media">
+            <img src="assets/Social.png" alt="Développement social et citoyenneté">
+          </div>
           <h3>DÉVELOPPEMENT SOCIAL & CITOYENNETÉ</h3>
           <p>
             Santé, éducation civique, valeurs sociales, leadership communautaire et
@@ -140,6 +145,9 @@
 
         <article class="axis-card">
           <div class="axis-number">04</div>
+          <div class="axis-media">
+            <img src="assets/Reseau.png" alt="Réseau national et international">
+          </div>
           <h3>RÉSEAU NATIONAL & INTERNATIONAL</h3>
           <p>
             Pôles régionaux en Haïti, EDHA Connect pour la diaspora, et une stratégie
@@ -151,7 +159,7 @@
   </section>
 
   <!-- A PROPOS -->
-  <section class="about reveal" id="apropos">
+  <section class="about reveal about--pro" id="apropos">
     <div class="container about-inner">
       <div class="about-text">
         <div class="badge">À propos d'EDHA</div>
@@ -207,24 +215,8 @@
     </div>
   </section>
 
-  <!-- PROGRAMMES -->
-  <section class="programmes reveal" id="programmes">
-    <div class="container">
-      <div class="section-header">
-        <div class="badge">Grands programmes d’EDHA</div>
-        <h2>Quatre pôles pour encadrer, former et protéger la jeunesse.</h2>
-        <p>
-          Le projet EDHA s’articule autour de programmes nationaux complémentaires qui
-          couvrent le social, la santé, l’éducation citoyenne et la technologie.
-        </p>
-      </div>
-
-      <div id="programmesGrid" class="programmes-grid"></div>
-    </div>
-  </section>
-
-  <!-- EDHA ACADEMY -->
-  <section class="academy reveal" id="formations">
+  <!-- EDHA ACADEMY (✅ pro) -->
+  <section class="academy reveal academy--pro" id="formations">
     <div class="container">
       <div class="section-header">
         <div class="badge">PROGRAMMES · EDHA ACADEMY</div>
@@ -333,7 +325,7 @@
   </section>
 
   <!-- RÉSEAU -->
-  <section class="network reveal" id="reseau">
+  <section class="network reveal network--pro" id="reseau">
     <div class="container">
       <div class="section-header">
         <div class="badge">Réseau EDHA · Haïti & Monde</div>
@@ -346,50 +338,155 @@
       </div>
 
       <div class="network-grid">
-        <article class="network-card">
-          <h3>EDHA Connect – Diaspora & Mentorat</h3>
-          <ul>
-            <li>Réseau mondial d’échanges, de mentorat et de solidarité.</li>
-            <li>Partage d’expériences des jeunes haïtiens vivant à l’étranger.</li>
-            <li>Webinaires, événements virtuels, opportunités de stages et bourses.</li>
-            <li>Valorisation des réussites de la diaspora comme modèles pour la jeunesse.</li>
-          </ul>
+
+        <!-- 1 -->
+        <article class="network-card network-card--expand" data-network-card>
+          <header class="network-head">
+            <div class="network-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M2 12h20" stroke="currentColor" stroke-width="1.8" opacity=".85"/>
+                <path d="M12 2c2.8 2.7 4.5 6.2 4.5 10S14.8 19.3 12 22c-2.8-2.7-4.5-6.2-4.5-10S9.2 4.7 12 2Z" stroke="currentColor" stroke-width="1.8" opacity=".85"/>
+              </svg>
+            </div>
+
+            <div class="network-head-text">
+              <h3>EDHA Connect – Diaspora & Mentorat</h3>
+              <p class="network-lead">Créer des ponts entre la jeunesse d’Haïti et le monde : mentorat, opportunités et solidarité.</p>
+            </div>
+          </header>
+
+          <div class="network-more" id="network-more-1" hidden>
+            <ul class="network-list">
+              <li>Réseau mondial d’échanges, de mentorat et de solidarité.</li>
+              <li>Partage d’expériences des jeunes haïtiens vivant à l'étranger.</li>
+              <li>Webinaires, événements virtuels, opportunités de stages et bourses.</li>
+              <li>Valorisation des réussites de la diaspora comme modèles pour la jeunesse.</li>
+              <li>Projets communs (ateliers, coaching, conférences, accompagnement).</li>
+            </ul>
+          </div>
+
+          <button class="network-toggle" type="button"
+                  aria-expanded="false"
+                  aria-controls="network-more-1"
+                  data-network-toggle>
+            <span class="network-toggle-text">Voir plus</span>
+            <span class="network-toggle-icon" aria-hidden="true">＋</span>
+          </button>
         </article>
 
-        <article class="network-card">
-          <h3>EDHA en Haïti – Pôles régionaux</h3>
-          <ul>
-            <li><strong>Grand Nord :</strong> Nord, Nord-Est, Nord-Ouest – programmes éducatifs, projets communautaires, soutien en zones rurales.</li>
-            <li><strong>Grand Sud & Ouest :</strong> Sud, Nippes, Grand’Anse, Ouest – initiatives humanitaires, grandes formations, projets technologiques.</li>
-            <li><strong>Centre :</strong> Centre, Artibonite – activités agricoles innovantes, formation rurale, développement communautaire.</li>
-            <li>Objectif : présence décentralisée et adaptée aux réalités de chaque région.</li>
-          </ul>
+        <!-- 2 -->
+        <article class="network-card network-card--expand" data-network-card>
+          <header class="network-head">
+            <div class="network-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 22s7-4.5 7-11a7 7 0 0 0-14 0c0 6.5 7 11 7 11Z" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" stroke="currentColor" stroke-width="1.8" opacity=".85"/>
+              </svg>
+            </div>
+
+            <div class="network-head-text">
+              <h3>EDHA en Haïti – Pôles régionaux</h3>
+              <p class="network-lead">Une présence décentralisée pour agir localement : éducation, social, innovation et accompagnement.</p>
+            </div>
+          </header>
+
+          <div class="network-more" id="network-more-2" hidden>
+            <ul class="network-list">
+              <li><strong>Grand Nord :</strong> Nord, Nord-Est, Nord-Ouest – programmes éducatifs, projets communautaires, soutien en zones rurales.</li>
+              <li><strong>Grand Sud & Ouest :</strong> Sud, Nippes, Grand’Anse, Ouest – initiatives humanitaires, grandes formations, projets technologiques.</li>
+              <li><strong>Centre :</strong> Centre, Artibonite – activités agricoles innovantes, formation rurale, développement communautaire.</li>
+              <li>Objectif : présence décentralisée et adaptée aux réalités de chaque région.</li>
+              <li>Création de pôles de formation (numérique, citoyenneté, leadership).</li>
+            </ul>
+          </div>
+
+          <button class="network-toggle" type="button"
+                  aria-expanded="false"
+                  aria-controls="network-more-2"
+                  data-network-toggle>
+            <span class="network-toggle-text">Voir plus</span>
+            <span class="network-toggle-icon" aria-hidden="true">＋</span>
+          </button>
         </article>
 
-        <article class="network-card">
-          <h3>EDHA Internationale</h3>
-          <ul>
-            <li>EDHA Amérique Latine – collaborations avec universités, ONG et écoles.</li>
-            <li>EDHA Europe – partenariats éducatifs, culturels et universitaires.</li>
-            <li>EDHA Afrique – échanges culturels, formations et solidarité panafricaine.</li>
-            <li>Ambition : promouvoir l’éducation haïtienne à l’échelle globale.</li>
-          </ul>
+        <!-- 3 -->
+        <article class="network-card network-card--expand" data-network-card>
+          <header class="network-head">
+            <div class="network-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M8.5 13.5 6 11a3 3 0 0 1 0-4.2l.8-.8a3 3 0 0 1 4.2 0L12 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M15.5 10.5 18 13a3 3 0 0 1 0 4.2l-.8.8a3 3 0 0 1-4.2 0L12 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M9.2 12.2 12 15l2.8-2.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>
+              </svg>
+            </div>
+
+            <div class="network-head-text">
+              <h3>EDHA Internationale</h3>
+              <p class="network-lead">Partenariats et échanges pour ouvrir des portes : universités, ONG, programmes éducatifs.</p>
+            </div>
+          </header>
+
+          <div class="network-more" id="network-more-3" hidden>
+            <ul class="network-list">
+              <li>EDHA Amérique Latine – collaborations avec universités, ONG et écoles.</li>
+              <li>EDHA Europe – partenariats éducatifs, culturels et universitaires.</li>
+              <li>EDHA Afrique – échanges culturels, formations et solidarité panafricaine.</li>
+              <li>Ambition : promouvoir l’éducation haïtienne à l’échelle globale.</li>
+              <li>Programmes d’échange, stages et projets communs internationaux.</li>
+            </ul>
+          </div>
+
+          <button class="network-toggle" type="button"
+                  aria-expanded="false"
+                  aria-controls="network-more-3"
+                  data-network-toggle>
+            <span class="network-toggle-text">Voir plus</span>
+            <span class="network-toggle-icon" aria-hidden="true">＋</span>
+          </button>
         </article>
 
-        <article class="network-card">
-          <h3>Vision 2035 : Projets d’envergure</h3>
-          <ul>
-            <li><strong>EDHA Université :</strong> institution d’enseignement supérieur moderne (technologie, santé, gestion, entrepreneuriat, sciences humaines, innovation).</li>
-            <li><strong>EDHA TV :</strong> chaîne télévisive éducative nationale (émissions éducatives, cours, programmes culturels et technologiques).</li>
-            <li><strong>EDHAC – EDHA Caraïbes :</strong> unifier les étudiants de la région caribéenne.</li>
-            <li><strong>EDHA Monde :</strong> mouvement éducatif et technologique global ouvert à toutes les nations.</li>
-          </ul>
+        <!-- 4 -->
+        <article class="network-card network-card--expand" data-network-card>
+          <header class="network-head">
+            <div class="network-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M14 3c3.5 1 6 4.5 6 8 0 4-3.5 8-8 8-3.5 0-7-2.5-8-6l4-4 6-4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M9 11l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+                <path d="M7 17l-2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+
+            <div class="network-head-text">
+              <h3>Vision 2035 : Projets d’envergure</h3>
+              <p class="network-lead">Des projets structurants pour une Haïti durable : université, TV éducative, réseau caribéen.</p>
+            </div>
+          </header>
+
+          <div class="network-more" id="network-more-4" hidden>
+            <ul class="network-list">
+              <li><strong>EDHA Université :</strong> institution d’enseignement supérieur moderne (technologie, santé, gestion, entrepreneuriat, sciences humaines, innovation).</li>
+              <li><strong>EDHA TV :</strong> chaîne télévisive éducative nationale (émissions éducatives, cours, programmes culturels et technologiques).</li>
+              <li><strong>EDHAC – EDHA Caraïbes :</strong> unifier les étudiants de la région caribéenne.</li>
+              <li><strong>EDHA Monde :</strong> mouvement éducatif et technologique global ouvert à toutes les nations.</li>
+              <li>Objectif : renforcer l’accès à la connaissance, à la formation et à l’innovation.</li>
+            </ul>
+          </div>
+
+          <button class="network-toggle" type="button"
+                  aria-expanded="false"
+                  aria-controls="network-more-4"
+                  data-network-toggle>
+            <span class="network-toggle-text">Voir plus</span>
+            <span class="network-toggle-icon" aria-hidden="true">＋</span>
+          </button>
         </article>
+
       </div>
     </div>
   </section>
 
-  <!-- ✅ FORMULAIRES -->
+  <!-- FORMULAIRES -->
   <section id="notes" class="reveal">
     <div class="container">
       <div class="section-header">
@@ -399,10 +496,12 @@
           Chaque inscription nous aide à mieux organiser les formations,
           les actions communautaires et les projets d’EDHA.
         </p>
+        <p class="muted" style="margin-top:10px;">
+          ✅ Ces formulaires envoient maintenant réellement un e-mail via Formspree.
+        </p>
       </div>
 
       <div class="join-grid">
-        <!-- BÉNÉVOLES -->
         <article class="join-card">
           <h3>Pour les Bénévoles</h3>
           <p>
@@ -410,33 +509,45 @@
             développement local.
           </p>
 
-          <form id="volunteerForm">
+          <!-- ✅ FORM: remplace action par ton endpoint Formspree -->
+          <form id="volunteerForm"
+                class="js-formspree"
+                action="https://formspree.io/f/xwveyoww"
+                method="POST"
+                accept-charset="UTF-8"
+                data-form-label="Bénévole">
+            <!-- anti-spam -->
+            <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+            <input type="hidden" name="formType" value="Bénévole">
+            <input type="hidden" name="page" value="">
+            <input type="hidden" name="timestamp" value="">
+
             <div class="form-group">
-              <label>Nom complet</label>
-              <input type="text" name="nom" required>
+              <label for="vol_name">Nom complet</label>
+              <input id="vol_name" type="text" name="nom" required>
             </div>
 
             <div class="form-group">
-              <label>E-mail</label>
-              <input type="email" name="email" required>
+              <label for="vol_email">E-mail</label>
+              <input id="vol_email" type="email" name="email" required>
             </div>
 
             <div class="form-group">
-              <label>Compétences / profil</label>
-              <textarea name="competences" placeholder="Ex: enseignant, infirmier, développeur, animateur…"></textarea>
+              <label for="vol_skills">Compétences / profil</label>
+              <textarea id="vol_skills" name="competences" placeholder="Ex: enseignant, infirmier, développeur, animateur…"></textarea>
             </div>
 
             <div class="form-group">
-              <label>Disponibilité</label>
-              <input type="text" name="disponibilite" placeholder="Ex: week-end, soirées…">
+              <label for="vol_avail">Disponibilité</label>
+              <input id="vol_avail" type="text" name="disponibilite" placeholder="Ex: week-end, soirées…">
             </div>
 
             <button class="btn btn-outline" type="submit">Rejoindre comme bénévole</button>
-            <p id="volunteerMsg" class="muted" style="margin-top:10px;"></p>
+            <p id="volunteerMsg" class="form-msg" role="status" aria-live="polite" style="margin-top:10px;"></p>
           </form>
         </article>
 
-        <!-- PARTENAIRES -->
         <article class="join-card">
           <h3>Pour les Partenaires</h3>
           <p>
@@ -444,29 +555,42 @@
             changement en Haïti.
           </p>
 
-          <form id="partnerForm">
+          <!-- ✅ FORM: remplace action par ton endpoint Formspree -->
+          <form id="partnerForm"
+                class="js-formspree"
+                action="https://formspree.io/f/xwveyoyw"
+                method="POST"
+                accept-charset="UTF-8"
+                data-form-label="Partenaire">
+            <!-- anti-spam -->
+            <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+            <input type="hidden" name="formType" value="Partenaire">
+            <input type="hidden" name="page" value="">
+            <input type="hidden" name="timestamp" value="">
+
             <div class="form-group">
-              <label>Organisation / Institution</label>
-              <input type="text" name="organisation">
+              <label for="par_org">Organisation / Institution</label>
+              <input id="par_org" type="text" name="organisation">
             </div>
 
             <div class="form-group">
-              <label>Personne contact</label>
-              <input type="text" name="personne_contact">
+              <label for="par_person">Personne contact</label>
+              <input id="par_person" type="text" name="personne_contact">
             </div>
 
             <div class="form-group">
-              <label>E-mail</label>
-              <input type="email" name="email" required>
+              <label for="par_email">E-mail</label>
+              <input id="par_email" type="email" name="email" required>
             </div>
 
             <div class="form-group">
-              <label>Type de collaboration souhaitée</label>
-              <textarea name="collaboration" placeholder="Financement, expertise, partenariat académique, etc."></textarea>
+              <label for="par_type">Type de collaboration souhaitée</label>
+              <textarea id="par_type" name="collaboration" placeholder="Financement, expertise, partenariat académique, etc."></textarea>
             </div>
 
             <button class="btn btn-outline" type="submit">Nous contacter</button>
-            <p id="partnerMsg" class="muted" style="margin-top:10px;"></p>
+            <p id="partnerMsg" class="form-msg" role="status" aria-live="polite" style="margin-top:10px;"></p>
           </form>
         </article>
       </div>
@@ -483,6 +607,7 @@
           pour les jeunes haïtiens. Chaque don compte pour offrir une éducation
           de qualité et soutenir les projets d’EDHA.
         </p>
+        <!-- ✅ PayPal: remplace par ton vrai lien -->
         <a href="https://TU_LINK_DE_PAYPAL" target="_blank" rel="noopener" class="btn btn-primary">
           Soutenez notre mission
         </a>
@@ -505,7 +630,7 @@
         <h3>Informations de contact</h3>
         <ul>
           <li><strong>Adresse :</strong> Port-au-Prince, Haïti</li>
-          <li><strong>Téléphone :</strong> +509 XXXX-XXXX</li>
+          <li><strong>Téléphone :</strong> +16033498882</li>
           <li><strong>Email :</strong> info.edhaplus@gmail.com</li>
         </ul>
       </div>
@@ -530,7 +655,8 @@
           <ul>
             <li><a href="#accueil">Accueil</a></li>
             <li><a href="#apropos">À propos</a></li>
-            <li><a href="#programmes">Programmes</a></li>
+            <!-- ✅ FIX: supprimé #programmes (n'existe pas) -->
+            <li><a href="#formations">Programmes</a></li>
             <li><a href="#formations">EDHA Academy</a></li>
             <li><a href="#reseau">Réseau & International</a></li>
             <li><a href="#don">Faire un don</a></li>
@@ -556,7 +682,9 @@
   </footer>
 
   <!-- BOUTON WHATSAPP -->
-  <a href="https://wa.me/509XXXXXXXX"
+  <!-- ✅ WhatsApp: remplace +16033498882 par ton vrai numéro (sans espaces) -->
+  <!-- ✅ Tu peux aussi modifier le texte pré-rempli -->
+  <a href="https://wa.me/+16033498882?text=Bonjour%20EDHA%2C%20je%20souhaite%20plus%20d%27informations."
      target="_blank"
      rel="noopener"
      class="whatsapp-float"
