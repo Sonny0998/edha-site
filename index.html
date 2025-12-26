@@ -16,14 +16,41 @@ FILE: index.html
 </head>
 
 <body>
-  <!-- TRADUCTEUR AUTOMATIQUE FR / EN / ES / HT -->
-  <div id="google_translate_element" style="position:fixed;top:4.8rem;right:1rem;z-index:60;"></div>
+
+  <!-- ✅ TRADUCTEUR PRO (Bouton + panneau) -->
+  <div class="translate-pro" id="translatePro">
+    <button class="translate-pro__btn" type="button" id="translateBtn" aria-expanded="false" aria-controls="translatePanel">
+      <span class="translate-pro__icon">🌐</span>
+      <span class="translate-pro__label">Traduire</span>
+      <span class="translate-pro__chev" aria-hidden="true">▾</span>
+    </button>
+
+    <div class="translate-pro__panel" id="translatePanel" role="dialog" aria-label="Traduction de la page" hidden>
+      <div class="translate-pro__panelHead">
+        <div>
+          <div class="translate-pro__title">Langue</div>
+          <div class="translate-pro__sub">Choisis une langue</div>
+        </div>
+        <button class="translate-pro__close" type="button" id="translateClose" aria-label="Fermer">✕</button>
+      </div>
+
+      <!-- Google Translate injection ici -->
+      <div id="google_translate_element"></div>
+
+      <div class="translate-pro__hint">
+        Astuce : si le menu n’apparaît pas, recharge la page.
+      </div>
+    </div>
+  </div>
+
+  <!-- Google Translate (fonctionnel) -->
   <script>
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
         pageLanguage: 'fr',
         includedLanguages: 'fr,en,es,ht',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
       }, 'google_translate_element');
     }
   </script>
@@ -43,15 +70,16 @@ FILE: index.html
       <nav class="nav-links">
         <a href="#accueil">Accueil</a>
         <a href="#apropos">À propos</a>
-        <a href="#formations">Programmes</a>
-        <a href="#formations">EDHA Academy</a>
+        <a href="#academy">EDHA Academy</a>
+        <a href="#programmes">Programmes</a>
         <a href="#reseau">Réseau & International</a>
         <a href="#contact">Contact</a>
       </nav>
 
       <div class="nav-actions">
-        <button class="lang-switch" type="button" aria-label="Langues disponibles via Google Translate">
-          FR · EN · ES · HT
+        <!-- ✅ Petit indicateur (optionnel) -->
+        <button class="lang-switch" type="button" aria-label="Ouvrir le traducteur">
+          🌐 Langues
         </button>
 
         <!-- ✅ PayPal: remplace par ton vrai lien -->
@@ -68,7 +96,9 @@ FILE: index.html
   <section class="hero reveal" id="accueil">
     <div class="container hero-inner">
       <div>
-        <div class="badge">ONG · INSTITUTION ÉDUCATIVE · MOUVEMENT INTERNATIONAL</div>
+        <!-- ✅ Badge en jaune (seulement celui-ci) -->
+        <div class="badge badge--yellow">ONG · INSTITUTION ÉDUCATIVE · MOUVEMENT INTERNATIONAL</div>
+
         <h1 class="hero-title">
           Éduquer, connecter et <span>préparer la jeunesse haïtienne pour l’avenir.</span>
         </h1>
@@ -79,8 +109,8 @@ FILE: index.html
           le développement humain et la coopération avec la diaspora.
         </p>
         <div class="hero-cta">
-          <a href="#formations" class="btn btn-primary">Découvrir EDHA Academy</a>
-          <a href="#formations" class="btn btn-outline">Voir nos programmes</a>
+          <a href="#academy" class="btn btn-primary">Découvrir EDHA Academy</a>
+          <a href="#programmes" class="btn btn-outline">Voir nos programmes</a>
         </div>
         <div class="hero-meta">
           <span><strong>Mission :</strong> former, accompagner, soutenir et inspirer les jeunes</span>
@@ -89,7 +119,7 @@ FILE: index.html
       </div>
 
       <aside class="hero-card hero-card-image">
-        <img src="assets/edha-bg.jpg" alt="Jeunes d’Haïti en formation avec EDHA">
+        <img src="assets/edha-bg.png" alt="Jeunes d’Haïti en formation avec EDHA">
       </aside>
     </div>
   </section>
@@ -216,8 +246,39 @@ FILE: index.html
     </div>
   </section>
 
-  <!-- EDHA ACADEMY -->
-  <section class="academy reveal academy--pro" id="formations">
+  <!-- EDHA ACADEMY (SHOWCASE) -->
+  <section class="academy-showcase reveal" id="academy">
+    <div class="container academy-showcase-inner">
+      <div class="academy-showcase-text">
+        <h2>EDHA Academy.</h2>
+
+        <p class="academy-lead">
+          <strong>EDHA Academy</strong> (École numérique et plateforme de cours en ligne)<br>
+          L’éducation accessible pour tous, partout.<br>
+          EDHA Academy est une plateforme d’e-learning offrant :
+        </p>
+
+        <ul class="academy-bullets">
+          <li>Des cours techniques et professionnels.</li>
+          <li>Des formations certifiantes.</li>
+          <li>Des programmes de développement personnel et leadership.</li>
+          <li>Des classes virtuelles accessibles aux jeunes d’Haïti et de la diaspora.</li>
+        </ul>
+
+        <p class="academy-note">
+          C’est l’école numérique de référence d’EDHA, pensée pour démocratiser l’éducation
+          et réduire les inégalités d’accès.
+        </p>
+      </div>
+
+      <div class="academy-showcase-media">
+        <img src="assets/edha-academy.png" alt="EDHA Academy - étudiants en formation">
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMMES (tabs) -->
+  <section class="academy reveal academy--pro" id="programmes">
     <div class="container">
       <div class="section-header">
         <div class="badge">PROGRAMMES · EDHA ACADEMY</div>
@@ -266,7 +327,6 @@ FILE: index.html
               <li>Actions humanitaires, soutien social et projets communautaires.</li>
               <li>Développement local et accompagnement des communautés.</li>
             </ul>
-            
           </div>
 
           <div class="academy-panel" id="sante">
@@ -280,7 +340,6 @@ FILE: index.html
               <li>Formations en premiers secours et gestes qui sauvent.</li>
               <li>Soutien psychosocial, santé mentale et journées médicales.</li>
             </ul>
-            
           </div>
 
           <div class="academy-panel" id="edu">
@@ -295,7 +354,6 @@ FILE: index.html
               <li>Citoyenneté et civisme : droits, devoirs et participation responsable.</li>
               <li>Valeurs sociales, identité culturelle, discipline et leadership communautaire.</li>
             </ul>
-            
           </div>
 
           <div class="academy-panel" id="tech-innov">
@@ -310,9 +368,39 @@ FILE: index.html
               <li>Robotique, électronique, intelligence artificielle et innovation sociale.</li>
               <li>Créativité numérique, multimédia et entrepreneuriat technologique.</li>
             </ul>
-
           </div>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPACT -->
+  <section class="impact reveal" id="impact">
+    <div class="container">
+      <div class="impact-head">
+        <h2>Impact et résultats</h2>
+      </div>
+
+      <div class="impact-grid" role="list">
+        <div class="impact-item" role="listitem">
+          <div class="impact-number">500+</div>
+          <p class="impact-text">Jeunes directement impactés par nos programmes</p>
+        </div>
+
+        <div class="impact-item" role="listitem">
+          <div class="impact-number">10.000+</div>
+          <p class="impact-text">Bénéficiaires indirects via campagnes et actions</p>
+        </div>
+
+        <div class="impact-item" role="listitem">
+          <div class="impact-number">1</div>
+          <p class="impact-text">Réseau de mentors internationaux en croissance</p>
+        </div>
+
+        <div class="impact-item" role="listitem">
+          <div class="impact-number">3+</div>
+          <p class="impact-text">Organisations partenaires</p>
+        </div>
       </div>
     </div>
   </section>
@@ -331,8 +419,6 @@ FILE: index.html
       </div>
 
       <div class="network-grid">
-
-        <!-- 1 -->
         <article class="network-card network-card--expand" data-network-card>
           <header class="network-head">
             <div class="network-icon" aria-hidden="true">
@@ -368,7 +454,6 @@ FILE: index.html
           </button>
         </article>
 
-        <!-- 2 -->
         <article class="network-card network-card--expand" data-network-card>
           <header class="network-head">
             <div class="network-icon" aria-hidden="true">
@@ -403,7 +488,6 @@ FILE: index.html
           </button>
         </article>
 
-        <!-- 3 -->
         <article class="network-card network-card--expand" data-network-card>
           <header class="network-head">
             <div class="network-icon" aria-hidden="true">
@@ -439,7 +523,6 @@ FILE: index.html
           </button>
         </article>
 
-        <!-- 4 -->
         <article class="network-card network-card--expand" data-network-card>
           <header class="network-head">
             <div class="network-icon" aria-hidden="true">
@@ -458,8 +541,8 @@ FILE: index.html
 
           <div class="network-more" id="network-more-4" hidden>
             <ul class="network-list">
-              <li><strong>EDHA Université :</strong> institution d’enseignement supérieur moderne (technologie, santé, gestion, entrepreneuriat, sciences humaines, innovation).</li>
-              <li><strong>EDHA TV :</strong> chaîne télévisée éducative nationale (émissions éducatives, cours, programmes culturels et technologiques).</li>
+              <li><strong>EDHA Université :</strong> institution d’enseignement supérieur moderne.</li>
+              <li><strong>EDHA TV :</strong> chaîne télévisée éducative nationale.</li>
               <li><strong>EDHAC – EDHA Caraïbes :</strong> unifier les étudiants de la région caribéenne.</li>
               <li><strong>EDHA Monde :</strong> mouvement éducatif et technologique global ouvert à toutes les nations.</li>
               <li>Objectif : renforcer l’accès à la connaissance, à la formation et à l’innovation.</li>
@@ -489,8 +572,7 @@ FILE: index.html
           Chaque inscription nous aide à mieux organiser les formations,
           les actions communautaires et les projets d’EDHA.
         </p>
-        <p class="muted" style="margin-top:10px;">
-        </p>
+        <p class="muted" style="margin-top:10px;"></p>
       </div>
 
       <div class="join-grid">
@@ -501,7 +583,6 @@ FILE: index.html
             développement local.
           </p>
 
-          <!-- ✅ FORM: Bénévole -->
           <form id="volunteerForm"
                 class="js-formspree"
                 action="https://formspree.io/f/xwveyoww"
@@ -509,10 +590,7 @@ FILE: index.html
                 accept-charset="UTF-8"
                 data-form-label="Bénévole">
 
-            <!-- anti-spam -->
             <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-            <!-- ✅ Sujet email Formspree -->
             <input type="hidden" name="_subject" value="EDHA – Nouvelle inscription bénévole">
 
             <input type="hidden" name="formType" value="Bénévole">
@@ -539,7 +617,6 @@ FILE: index.html
               <input id="vol_avail" type="text" name="disponibilite" placeholder="Ex: week-end, soirées…">
             </div>
 
-            <!-- ✅ Ajout: message optionnel pour avoir un contenu clair dans l’email -->
             <div class="form-group">
               <label for="vol_msg">Message (optionnel)</label>
               <textarea id="vol_msg" name="message" placeholder="Dites-nous en plus sur votre motivation…"></textarea>
@@ -557,7 +634,6 @@ FILE: index.html
             changement en Haïti.
           </p>
 
-          <!-- ✅ FORM: Partenaire -->
           <form id="partnerForm"
                 class="js-formspree"
                 action="https://formspree.io/f/xwveyoyw"
@@ -565,10 +641,7 @@ FILE: index.html
                 accept-charset="UTF-8"
                 data-form-label="Partenaire">
 
-            <!-- anti-spam -->
             <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-            <!-- ✅ Sujet email Formspree -->
             <input type="hidden" name="_subject" value="EDHA – Nouvelle demande partenaire">
 
             <input type="hidden" name="formType" value="Partenaire">
@@ -595,7 +668,6 @@ FILE: index.html
               <textarea id="par_type" name="collaboration" placeholder="Financement, expertise, partenariat académique, etc."></textarea>
             </div>
 
-            <!-- ✅ Ajout: message optionnel -->
             <div class="form-group">
               <label for="par_msg">Message (optionnel)</label>
               <textarea id="par_msg" name="message" placeholder="Expliquez votre demande…"></textarea>
@@ -637,12 +709,28 @@ FILE: index.html
           et des partenaires qui souhaitent collaborer pour le développement d'Haïti.
         </p>
       </div>
+
       <div>
         <h3>Informations de contact</h3>
-        <ul>
-          <li><strong>Adresse :</strong> Port-au-Prince, Haïti</li>
-          <li><strong>Téléphone :</strong> +16033498882</li>
-          <li><strong>Email :</strong> info.edhaplus@gmail.com</li>
+        <ul class="contact-list">
+          <li>
+            <strong>Haïti :</strong>
+            Bois d’ormes 12 #1, Gonaives, Haiti.<br>
+            <strong>Téléphone :</strong> +50942394790
+          </li>
+          <li>
+            <strong>USA :</strong>
+            66 cascadnac ave, White River, Vermont 05001, USA<br>
+            <strong>Téléphone :</strong> 603 349 8882
+          </li>
+          <li>
+            <strong>France :</strong>
+            2 place du pré 72000, Le Mans, France<br>
+            <strong>Téléphone :</strong> +33767870509
+          </li>
+          <li>
+            <strong>Email :</strong> info.edhaplus@gmail.com
+          </li>
         </ul>
       </div>
     </div>
@@ -666,8 +754,8 @@ FILE: index.html
           <ul>
             <li><a href="#accueil">Accueil</a></li>
             <li><a href="#apropos">À propos</a></li>
-            <li><a href="#formations">Programmes</a></li>
-            <li><a href="#formations">EDHA Academy</a></li>
+            <li><a href="#academy">EDHA Academy</a></li>
+            <li><a href="#programmes">Programmes</a></li>
             <li><a href="#reseau">Réseau & International</a></li>
             <li><a href="#don">Faire un don</a></li>
             <li><a href="#contact">Contact</a></li>
@@ -677,8 +765,12 @@ FILE: index.html
         <div class="footer-col">
           <h4>Contactez-nous</h4>
           <ul>
-            <li>Adresse : Port-au-Prince, Haïti</li>
-            <li>Téléphone : 16033498882</li>
+            <li><strong>Haïti :</strong> Bois d’ormes 12 #1, Gonaives</li>
+            <li>Tél : +50942394790</li>
+            <li><strong>USA :</strong> White River, Vermont 05001</li>
+            <li>Tél : 603 349 8882</li>
+            <li><strong>France :</strong> Le Mans 72000</li>
+            <li>Tél : +33767870509</li>
             <li>Email : info.edhaplus@gmail.com</li>
           </ul>
         </div>
@@ -699,5 +791,6 @@ FILE: index.html
      aria-label="Contacter EDHA sur WhatsApp">
     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
   </a>
+
 </body>
 </html>

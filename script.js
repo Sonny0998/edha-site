@@ -1,48 +1,6 @@
 /* =========================
 FILE: script.js
-✅ Corrigé: Formspree envoie maintenant TOUS les champs (email non vide)
-✅ Ajout: sujet propre + message optionnel déjà géré dans HTML
 ========================= */
-
-// ====== DATA (statique / local) ======
-const PROGRAMS = [
-  {
-    name: "EDHA Organisation",
-    description: "Département social, humanitaire et développement communautaire.",
-    bullets: [
-      "Initiatives pour enfants, adolescents et familles vulnérables",
-      "Actions humanitaires et soutien social",
-      "Projets communautaires et développement local",
-    ],
-  },
-  {
-    name: "EDHA Santé Jeunesse",
-    description: "Santé physique, mentale, prévention et bien-être des jeunes.",
-    bullets: [
-      "Campagnes de prévention et éducation sanitaire",
-      "Premiers secours et gestes qui sauvent",
-      "Soutien psychosocial et journées médicales",
-    ],
-  },
-  {
-    name: "EDHA Éducation & Citoyen",
-    description: "Civisme, valeurs, accompagnement scolaire et leadership.",
-    bullets: [
-      "Soutien scolaire et accompagnement académique",
-      "Droits, devoirs, civisme et participation citoyenne",
-      "Valeurs sociales, discipline et leadership communautaire",
-    ],
-  },
-  {
-    name: "EDHA Technologie & Innovation",
-    description: "Programmation, robotique, IA et créativité numérique.",
-    bullets: [
-      "Cours de programmation (Python, Web, mobile, bases de données)",
-      "Robotique, électronique, intelligence artificielle",
-      "Entrepreneuriat technologique et projets innovants",
-    ],
-  },
-];
 
 // ====== HELPERS ======
 function escapeHTML(value) {
@@ -53,28 +11,6 @@ function escapeHTML(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
-}
-
-// ====== RENDER PROGRAMMES (statique) ======
-function createProgramCard(program) {
-  const name = escapeHTML(program.name);
-  const desc = escapeHTML(program.description || "");
-  const bullets = Array.isArray(program.bullets) ? program.bullets : [];
-  const bulletsHtml = bullets.map((b) => `<li>${escapeHTML(b)}</li>`).join("");
-
-  return `
-    <article class="programme-card">
-      <h3>${name}</h3>
-      <p class="programme-sub">${desc}</p>
-      ${bullets.length ? `<ul>${bulletsHtml}</ul>` : ""}
-    </article>
-  `;
-}
-
-function loadProgramsStatic() {
-  const grid = document.getElementById("programmesGrid");
-  if (!grid) return;
-  grid.innerHTML = PROGRAMS.map(createProgramCard).join("");
 }
 
 // ====== NAV + UI ======
@@ -92,7 +28,6 @@ function setupNavbar() {
       );
     });
 
-    // fermer le menu quand on clique un lien (mobile)
     links.querySelectorAll("a").forEach((a) => {
       a.addEventListener("click", () => {
         if (!links.classList.contains("nav-links--open")) return;
@@ -124,90 +59,62 @@ function setupReveal() {
   items.forEach((el) => obs.observe(el));
 }
 
-// Anim pro uniquement pour À propos
-function setupAboutPro() {
-  const section = document.querySelector(".about--pro");
-  if (!section) return;
+// ====== TRADUCTION PRO ======
+function setupTranslatePro() {
+  const root = document.getElementById("translatePro");
+  const btn = document.getElementById("translateBtn");
+  const panel = document.getElementById("translatePanel");
+  const closeBtn = document.getElementById("translateClose");
+  const navLangBtn = document.querySelector(".lang-switch");
 
-  const reduce =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!root || !btn || !panel) return;
 
-  if (reduce) return;
-
-  const obs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (!e.isIntersecting) return;
-        section.classList.add("about-ready");
-        obs.disconnect();
-      });
-    },
-    { threshold: 0.18 }
-  );
-
-  obs.observe(section);
-}
-
-// Academy pro
-function setupAcademyPro() {
-  const section = document.querySelector(".academy--pro");
-  if (!section) return;
-
-  const reduce =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (reduce) return;
-
-  const obs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (!e.isIntersecting) return;
-        section.classList.add("academy-ready");
-        obs.disconnect();
-      });
-    },
-    { threshold: 0.18 }
-  );
-
-  obs.observe(section);
-}
-
-// Network pro: stagger cards
-function setupNetworkPro() {
-  const section = document.querySelector(".network--pro");
-  if (!section) return;
-
-  const cards = section.querySelectorAll(".network-card");
-  cards.forEach((card, i) => {
-    card.style.setProperty("--d", `${0.06 + i * 0.08}s`);
-  });
-
-  const reduce =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (reduce) {
-    section.classList.add("network-ready");
-    return;
+  function openPanel() {
+    panel.hidden = false;
+    root.classList.add("is-open");
+    btn.setAttribute("aria-expanded", "true");
+    // focus pour accessibilité
+    setTimeout(() => closeBtn?.focus(), 0);
   }
 
-  const obs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (!e.isIntersecting) return;
-        section.classList.add("network-ready");
-        obs.disconnect();
-      });
-    },
-    { threshold: 0.16 }
-  );
+  function closePanel() {
+    root.classList.remove("is-open");
+    btn.setAttribute("aria-expanded", "false");
+    // on laisse une petite transition avant hidden
+    setTimeout(() => {
+      panel.hidden = true;
+    }, 140);
+  }
 
-  obs.observe(section);
+  function togglePanel() {
+    if (root.classList.contains("is-open")) closePanel();
+    else openPanel();
+  }
+
+  btn.addEventListener("click", togglePanel);
+  closeBtn?.addEventListener("click", closePanel);
+
+  // bouton navbar "🌐 Langues" ouvre le panel aussi
+  navLangBtn?.addEventListener("click", openPanel);
+
+  // fermer en cliquant dehors
+  document.addEventListener("click", (e) => {
+    if (!root.classList.contains("is-open")) return;
+    const target = e.target;
+    if (!(target instanceof Element)) return;
+    if (root.contains(target)) return;
+    closePanel();
+  });
+
+  // ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    if (!root.classList.contains("is-open")) return;
+    closePanel();
+  });
 }
 
-// "Voir plus / Réduire"
+// Network: "Voir plus / Réduire"
 function setupNetworkExpand() {
   const cards = document.querySelectorAll("[data-network-card]");
   if (!cards.length) return;
@@ -242,11 +149,11 @@ function setupNetworkExpand() {
     if (open) {
       more.hidden = false;
       more.style.maxHeight = "0px";
-      more.offsetHeight; // reflow
+      more.offsetHeight;
       more.style.maxHeight = more.scrollHeight + "px";
     } else {
       more.style.maxHeight = more.scrollHeight + "px";
-      more.offsetHeight; // reflow
+      more.offsetHeight;
       more.style.maxHeight = "0px";
     }
   }
@@ -257,11 +164,9 @@ function setupNetworkExpand() {
     const more = moreId ? document.getElementById(moreId) : null;
     if (!btn || !more) return;
 
-    // init closed
     more.hidden = true;
     more.style.maxHeight = "0px";
 
-    // init text/icon
     const text = btn.querySelector(".network-toggle-text");
     const icon = btn.querySelector(".network-toggle-icon");
     if (text) text.textContent = "Voir plus";
@@ -331,15 +236,12 @@ function setMsg(el, type, text) {
   if (type) el.classList.add(type);
 }
 
-// ✅ IMPORTANT: on peut désactiver visuellement,
-// MAIS on ne doit JAMAIS désactiver avant d’avoir construit FormData.
 function setSubmitting(form, submitting) {
   const btn = form.querySelector('button[type="submit"]');
   if (btn) btn.disabled = submitting;
 
   const inputs = form.querySelectorAll("input, textarea, select, button");
   inputs.forEach((i) => {
-    // on laisse le bouton gérer son état
     if (i === btn) return;
     i.disabled = submitting;
   });
@@ -358,7 +260,6 @@ async function postFormspree(form, msgEl) {
     return;
   }
 
-  // anti-spam honeypot
   const gotcha = form.querySelector('input[name="_gotcha"]');
   if (gotcha && gotcha.value.trim() !== "") {
     setMsg(msgEl, "is-success", "✅ Merci ! Votre message a été envoyé.");
@@ -366,22 +267,17 @@ async function postFormspree(form, msgEl) {
     return;
   }
 
-  // inject meta
   const page = form.querySelector('input[name="page"]');
   const ts = form.querySelector('input[name="timestamp"]');
   if (page) page.value = window.location.href;
   if (ts) ts.value = new Date().toISOString();
 
   const label = form.dataset.formLabel || "Formulaire";
-
-  // ✅ CRITIQUE: construire FormData AVANT de désactiver les champs
   const formData = new FormData(form);
 
-  // champs supplémentaires utiles pour l’email
   formData.set("source", "edha-site");
   formData.set("label", label);
 
-  // sujet (si jamais tu enlèves le hidden _subject, ceci le remet)
   if (!formData.get("_subject")) {
     formData.set("_subject", `EDHA – Nouvelle demande (${label})`);
   }
@@ -407,9 +303,7 @@ async function postFormspree(form, msgEl) {
     }
 
     let data = null;
-    try {
-      data = await res.json();
-    } catch {}
+    try { data = await res.json(); } catch {}
 
     if (data && Array.isArray(data.errors) && data.errors.length) {
       const details = data.errors.map((e) => e.message).join(" • ");
@@ -449,13 +343,8 @@ document.addEventListener("DOMContentLoaded", () => {
   setupNavbar();
   setupReveal();
 
-  setupAboutPro();
-  setupAcademyPro();
-  setupNetworkPro();
-
+  setupTranslatePro();     // ✅ NUEVO
   setupNetworkExpand();
   setupAcademyTabs();
-  loadProgramsStatic();
-
   setupRealForms();
 });
