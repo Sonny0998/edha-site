@@ -9,9 +9,18 @@ FILE: index.html
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="EDHA - Éducation et Développement d'Haïti : ONG, institution éducative moderne et mouvement international. Programmes sociaux, technologiques, citoyens et projets universitaires pour transformer la jeunesse haïtienne.">
 
-  <link rel="stylesheet" href="styles.css">
+  <!-- ✅ LOGO (solo la “E”) como favicon SIN imágenes: SVG embebido -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%23021623%27/%3E%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%23044f5a%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle%20cx%3D%2716%27%20cy%3D%2716%27%20r%3D%2714%27%20fill%3D%27url(%23g)%27/%3E%3Ccircle%20cx%3D%2716%27%20cy%3D%2716%27%20r%3D%2714%27%20fill%3D%27none%27%20stroke%3D%27%23f4c542%27%20stroke-width%3D%272%27/%3E%3Ctext%20x%3D%2716%27%20y%3D%2720%27%20text-anchor%3D%27middle%27%20font-size%3D%2716%27%20font-weight%3D%27800%27%20font-family%3D%27Poppins%2C%20Arial%2C%20sans-serif%27%20fill%3D%27%23ffffff%27%3EE%3C/text%3E%3C/svg%3E" />
 
-  <!-- ✅ JS principal (1 seule fois) -->
+  <!-- ✅ Safari pinned tab (opcional) -->
+  <link rel="mask-icon"
+    href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Ccircle%20cx%3D%2750%27%20cy%3D%2750%27%20r%3D%2746%27%20fill%3D%27%23000000%27/%3E%3Ctext%20x%3D%2750%27%20y%3D%2766%27%20text-anchor%3D%27middle%27%20font-size%3D%2754%27%20font-weight%3D%27800%27%20font-family%3D%27Arial%2C%20sans-serif%27%20fill%3D%27%23ffffff%27%3EE%3C/text%3E%3C/svg%3E"
+    color="#03727f" />
+
+  <meta name="theme-color" content="#020a12">
+
+  <link rel="stylesheet" href="styles.css">
   <script src="script.js" defer></script>
 </head>
 
@@ -34,7 +43,6 @@ FILE: index.html
         <button class="translate-pro__close" type="button" id="translateClose" aria-label="Fermer">✕</button>
       </div>
 
-      <!-- Google Translate injection ici -->
       <div id="google_translate_element"></div>
 
       <div class="translate-pro__hint">
@@ -43,7 +51,7 @@ FILE: index.html
     </div>
   </div>
 
-  <!-- Google Translate (fonctionnel) -->
+  <!-- Google Translate -->
   <script>
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
@@ -60,14 +68,20 @@ FILE: index.html
   <header>
     <div class="container nav">
       <div class="nav-left">
-        <div class="logo-mark-text">E</div>
+        <div class="logo-mark-text" aria-label="EDHA">E</div>
         <div>
           <div class="logo-text-main">EDHA</div>
           <div class="logo-sub">Éducation & Développement d'Haïti</div>
         </div>
       </div>
 
+      <!-- ✅ MENU (en mobile se abre con ☰) -->
       <nav class="nav-links">
+        <!-- ✅ Don dentro del menú (estilo recomendado B) -->
+        <a href="https://TU_LINK_DE_PAYPAL" target="_blank" rel="noopener" class="nav-donate">
+          ❤️ Faire un don
+        </a>
+
         <a href="#accueil">Accueil</a>
         <a href="#apropos">À propos</a>
         <a href="#academy">EDHA Academy</a>
@@ -77,15 +91,9 @@ FILE: index.html
       </nav>
 
       <div class="nav-actions">
-        <!-- ✅ Petit indicateur (optionnel) -->
         <button class="lang-switch" type="button" aria-label="Ouvrir le traducteur">
           🌐 Langues
         </button>
-
-        <!-- ✅ PayPal: remplace par ton vrai lien -->
-        <a href="https://TU_LINK_DE_PAYPAL" target="_blank" rel="noopener" class="btn btn-primary">
-          Faire un don
-        </a>
 
         <button class="nav-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
       </div>
@@ -96,7 +104,6 @@ FILE: index.html
   <section class="hero reveal" id="accueil">
     <div class="container hero-inner">
       <div>
-        <!-- ✅ Badge en jaune (seulement celui-ci) -->
         <div class="badge badge--yellow">ONG · INSTITUTION ÉDUCATIVE · MOUVEMENT INTERNATIONAL</div>
 
         <h1 class="hero-title">
@@ -719,6 +726,11 @@ FILE: index.html
             <strong>Téléphone :</strong> +50942394790
           </li>
           <li>
+            <strong>Haïti :</strong>
+            Bois d’ormes 12 #1, Gonaives, Haiti.<br>
+            <strong>Téléphone :</strong> +50944241375
+          </li>
+          <li>
             <strong>USA :</strong>
             66 cascadnac ave, White River, Vermont 05001, USA<br>
             <strong>Téléphone :</strong> 603 349 8882
@@ -767,6 +779,8 @@ FILE: index.html
           <ul>
             <li><strong>Haïti :</strong> Bois d’ormes 12 #1, Gonaives</li>
             <li>Tél : +50942394790</li>
+            <li><strong>Haïti :</strong> Bois d’ormes 12 #1, Gonaives</li>
+            <li>Tél : +50944241375</li>
             <li><strong>USA :</strong> White River, Vermont 05001</li>
             <li>Tél : 603 349 8882</li>
             <li><strong>France :</strong> Le Mans 72000</li>

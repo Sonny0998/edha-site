@@ -33,12 +33,10 @@ a { text-decoration: none; color: inherit; }
 
 .container { width: min(1120px, 100% - 2.5rem); margin: 0 auto; }
 
-/* ✅ Espacio entre secciones (reducido un poco) */
 section { padding: 3.8rem 0; }
 
 h1, h2, h3, h4 { font-weight: 700; color: var(--dark); }
 
-/* ✅ Focus (accessibilité pro) */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -49,7 +47,7 @@ textarea:focus-visible {
 }
 
 /* =========================
-TRADUCTEUR PRO (NUEVO)
+TRADUCTEUR PRO
 ========================= */
 .translate-pro {
   position: fixed;
@@ -134,25 +132,19 @@ TRADUCTEUR PRO (NUEVO)
   opacity: 0.9;
 }
 
-/* ✅ “re-skin” del widget Google Translate dentro del panel */
-#google_translate_element {
-  margin-top: 0.25rem;
-}
+#google_translate_element { margin-top: 0.25rem; }
 
-/* El contenedor del combo */
 .translate-pro .goog-te-gadget {
   color: transparent !important;
   font-size: 0 !important;
   line-height: 0 !important;
 }
 
-/* Oculta "Powered by" */
 .translate-pro .goog-logo-link,
 .translate-pro .goog-te-gadget span {
   display: none !important;
 }
 
-/* Estilo del select */
 .translate-pro select.goog-te-combo {
   width: 100% !important;
   max-width: 100% !important;
@@ -167,10 +159,7 @@ TRADUCTEUR PRO (NUEVO)
   cursor: pointer !important;
 }
 
-/* Opciones */
-.translate-pro select.goog-te-combo option {
-  color: #0b1220 !important;
-}
+.translate-pro select.goog-te-combo option { color: #0b1220 !important; }
 
 /* =========================
 BOUTON / UI
@@ -217,7 +206,6 @@ BOUTON / UI
   color: var(--primary);
 }
 
-/* ✅ SOLO el badge del HERO en amarillo */
 .badge--yellow {
   background: rgba(244, 197, 66, 0.14);
   color: var(--secondary);
@@ -262,6 +250,7 @@ header.header-scrolled {
   background: linear-gradient(135deg, #021623, #044f5a);
   box-shadow: 0 0 0 3px rgba(3, 114, 127, 0.4);
 }
+
 .logo-text-main { font-size: 1.2rem; font-weight: 800; letter-spacing: 0.04em; }
 .logo-sub { font-size: 0.8rem; opacity: 0.8; }
 
@@ -655,7 +644,6 @@ input:focus, select:focus, textarea:focus {
 }
 textarea { min-height: 80px; resize: vertical; }
 
-/* Messages pro */
 .form-msg {
   font-size: 0.84rem;
   padding: 0.65rem 0.75rem;
@@ -669,7 +657,6 @@ textarea { min-height: 80px; resize: vertical; }
 .form-msg.is-error { border-color: rgba(239, 68, 68, 0.35); background: rgba(239, 68, 68, 0.12); color: #7f1d1d; }
 .form-msg.is-loading { border-color: rgba(244, 197, 66, 0.40); background: rgba(244, 197, 66, 0.15); color: #5b4b10; }
 
-/* Honeypot caché */
 .hp-field {
   position: absolute !important;
   left: -9999px !important;
@@ -775,6 +762,15 @@ body { top: 0 !important; }
 @media (max-width: 768px) {
   header { backdrop-filter: none; }
 
+  /* ✅ FIX: header full width real en móvil (para que el ☰ no se vea mal) */
+  header .container.nav {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
   .nav-links {
     display: none;
     position: absolute;
@@ -786,8 +782,23 @@ body { top: 0 !important; }
     flex-direction: column;
     gap: 0.7rem;
     z-index: 60;
+    border-radius: 0 0 16px 16px;
   }
   .nav-links.nav-links--open { display: flex; }
+
+  /* ✅ DON dentro del menú (estilo B) */
+  .nav-links .nav-donate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    padding: 0.75rem 1rem;
+    border-radius: 999px;
+    margin-bottom: 0.35rem;
+    color: white;
+    background: linear-gradient(135deg, var(--primary), var(--primary-soft));
+    box-shadow: 0 12px 26px rgba(3, 114, 127, 0.55);
+  }
 
   .nav-toggle {
     display: inline-flex;
@@ -796,17 +807,22 @@ body { top: 0 !important; }
     font-size: 1.4rem;
     color: #f0f4ff;
     cursor: pointer;
+
+    /* ✅ hit-area cómodo */
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
   }
 
   section { padding: 3.0rem 0; }
 
   .hero { padding-top: 4rem; background-attachment: scroll; }
 
-  /* traductor pro en mobile */
   .translate-pro { top: 5.8rem; right: 0.9rem; }
 }
 
-/* Accessibilité: réduire les animations */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;

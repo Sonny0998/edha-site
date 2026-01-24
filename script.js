@@ -73,14 +73,12 @@ function setupTranslatePro() {
     panel.hidden = false;
     root.classList.add("is-open");
     btn.setAttribute("aria-expanded", "true");
-    // focus pour accessibilité
     setTimeout(() => closeBtn?.focus(), 0);
   }
 
   function closePanel() {
     root.classList.remove("is-open");
     btn.setAttribute("aria-expanded", "false");
-    // on laisse une petite transition avant hidden
     setTimeout(() => {
       panel.hidden = true;
     }, 140);
@@ -94,10 +92,8 @@ function setupTranslatePro() {
   btn.addEventListener("click", togglePanel);
   closeBtn?.addEventListener("click", closePanel);
 
-  // bouton navbar "🌐 Langues" ouvre le panel aussi
   navLangBtn?.addEventListener("click", openPanel);
 
-  // fermer en cliquant dehors
   document.addEventListener("click", (e) => {
     if (!root.classList.contains("is-open")) return;
     const target = e.target;
@@ -106,7 +102,6 @@ function setupTranslatePro() {
     closePanel();
   });
 
-  // ESC
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
     if (!root.classList.contains("is-open")) return;
@@ -342,8 +337,7 @@ function setupRealForms() {
 document.addEventListener("DOMContentLoaded", () => {
   setupNavbar();
   setupReveal();
-
-  setupTranslatePro();     // ✅ NUEVO
+  setupTranslatePro();
   setupNetworkExpand();
   setupAcademyTabs();
   setupRealForms();
