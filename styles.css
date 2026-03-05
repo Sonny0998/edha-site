@@ -218,7 +218,7 @@ header {
   top: 0;
   z-index: 50;
   backdrop-filter: blur(10px);
-  background: transparent;
+  background: rgba(5, 13, 24, 0.96);
   transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 header .container.nav { position: relative; }
@@ -532,8 +532,16 @@ header.header-scrolled {
 
 /* RÉSEAU EDHA */
 .network { background: #f9fbff; }
-.network-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+.network-grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+  gap: 1.5rem; 
+  align-items: start;
+}
 
+.network-card{
+  align-self: start;
+}
 .network-card {
   background: var(--white);
   border-radius: var(--radius-lg);
@@ -545,12 +553,22 @@ header.header-scrolled {
   overflow: hidden;
 }
 
-.network-head {
-  display: grid;
-  grid-template-columns: 52px 1fr;
-  gap: 0.9rem;
-  align-items: start;
-  margin-bottom: 0.85rem;
+.network-head{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  margin-bottom:10px;
+  background:none;
+}
+
+.network-icon{
+  width:52px;
+  height:52px;
+  flex-shrink:0;
+}
+
+.network-head-text{
+  flex:1;
 }
 
 .network-icon {
