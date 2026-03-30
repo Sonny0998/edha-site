@@ -1,344 +1,336 @@
-/* =========================
-FILE: script.js
-========================= */
+/* ════════════════════════════════════════════════════════════
+   EDHA — JavaScript partagé
+   Fichier : script.js
+   ════════════════════════════════════════════════════════════ */
 
-// ====== HELPERS ======
-function escapeHTML(value) {
-  if (value === null || value === undefined) return "";
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
+(function () {
+  'use strict';
 
-// ====== NAV + UI ======
-function setupNavbar() {
-  const header = document.querySelector("header");
-  const toggle = document.querySelector(".nav-toggle");
-  const links = document.querySelector(".nav-links");
 
-  if (toggle && links) {
-    toggle.addEventListener("click", () => {
-      links.classList.toggle("nav-links--open");
-      toggle.setAttribute(
-        "aria-expanded",
-        links.classList.contains("nav-links--open") ? "true" : "false"
-      );
+  /* ══ 1. NAVIGATION ═════════════════════════════════════════ */
+
+  var hdr = document.getElementById('hdr');
+  var nm  = document.getElementById('nm');
+  var hbg = document.getElementById('hbg');
+
+  // Ajoute la classe "scrolled" au header lors du défilement
+  if (hdr) {
+    window.addEventListener('scroll', function () {
+      hdr.classList.toggle('scrolled', window.scrollY > 50);
+    }, { passive: true });
+  }
+
+  // Ouvre / ferme le menu mobile
+  if (hbg) {
+    hbg.addEventListener('click', function () {
+      var open = nm.classList.toggle('open');
+      hbg.textContent = open ? '✕' : '☰';
+      hbg.setAttribute('aria-expanded', String(open));
     });
+  }
 
-    links.querySelectorAll("a").forEach((a) => {
-      a.addEventListener("click", () => {
-        if (!links.classList.contains("nav-links--open")) return;
-        links.classList.remove("nav-links--open");
-        toggle.setAttribute("aria-expanded", "false");
+  // Ferme le menu mobile au clic sur un lien
+  if (nm) {
+    nm.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        nm.classList.remove('open');
+        if (hbg) { hbg.textContent = '☰'; hbg.setAttribute('aria-expanded', 'false'); }
       });
     });
   }
 
-  window.addEventListener("scroll", () => {
-    if (!header) return;
-    header.classList.toggle("header-scrolled", window.scrollY > 10);
-  });
-}
 
-function setupReveal() {
-  const items = document.querySelectorAll(".reveal");
-  if (!items.length) return;
+  /* ══ 2. SÉLECTEUR DE LANGUE PROFESSIONNEL ══════════════════ */
+  /*
+   * Contrôle le menu déroulant de langue EDHA.
+   * Utilise Google Translate en arrière-plan de façon invisible.
+   * L'utilisateur voit uniquement le menu EDHA, pas l'interface Google.
+   */
 
-  const obs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) e.target.classList.add("visible");
-      });
-    },
-    { threshold: 0.12 }
-  );
+  var lsSwitcher = document.getElementById('langSwitcher');
+  var lsTrigger  = document.getElementById('lsTrigger');
+  var lsMenu     = document.getElementById('lsMenu');
+  var lsCurrent  = document.getElementById('lsCurrent');
 
-  items.forEach((el) => obs.observe(el));
-}
+  if (lsTrigger && lsMenu) {
 
-// ====== TRADUCTION PRO ======
-function setupTranslatePro() {
-  const root = document.getElementById("translatePro");
-  const btn = document.getElementById("translateBtn");
-  const panel = document.getElementById("translatePanel");
-  const closeBtn = document.getElementById("translateClose");
-  const navLangBtn = document.querySelector(".lang-switch");
-
-  if (!root || !btn || !panel) return;
-
-  function openPanel() {
-    panel.hidden = false;
-    root.classList.add("is-open");
-    btn.setAttribute("aria-expanded", "true");
-    setTimeout(() => closeBtn?.focus(), 0);
-  }
-
-  function closePanel() {
-    root.classList.remove("is-open");
-    btn.setAttribute("aria-expanded", "false");
-    setTimeout(() => {
-      panel.hidden = true;
-    }, 140);
-  }
-
-  function togglePanel() {
-    if (root.classList.contains("is-open")) closePanel();
-    else openPanel();
-  }
-
-  btn.addEventListener("click", togglePanel);
-  closeBtn?.addEventListener("click", closePanel);
-
-  navLangBtn?.addEventListener("click", openPanel);
-
-  document.addEventListener("click", (e) => {
-    if (!root.classList.contains("is-open")) return;
-    const target = e.target;
-    if (!(target instanceof Element)) return;
-    if (root.contains(target)) return;
-    closePanel();
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape") return;
-    if (!root.classList.contains("is-open")) return;
-    closePanel();
-  });
-}
-
-// Network: "Voir plus / Réduire"
-function setupNetworkExpand() {
-  const cards = document.querySelectorAll("[data-network-card]");
-  if (!cards.length) return;
-
-  const reduce =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  function setOpen(card, open) {
-    const btn = card.querySelector("[data-network-toggle]");
-    const moreId = btn?.getAttribute("aria-controls");
-    const more = moreId ? document.getElementById(moreId) : null;
-
-    if (!btn || !more) return;
-
-    card.classList.toggle("is-open", open);
-    btn.setAttribute("aria-expanded", open ? "true" : "false");
-
-    const text = btn.querySelector(".network-toggle-text");
-    const icon = btn.querySelector(".network-toggle-icon");
-    if (text) text.textContent = open ? "Réduire" : "Voir plus";
-    if (icon) icon.textContent = open ? "−" : "＋";
-
-    if (reduce) {
-      more.hidden = !open;
-      more.style.maxHeight = open ? "none" : "0px";
-      more.style.opacity = open ? "1" : "0";
-      more.style.transform = open ? "translateY(0)" : "translateY(-4px)";
-      return;
-    }
-
-    if (open) {
-      more.hidden = false;
-      more.style.maxHeight = "0px";
-      more.offsetHeight;
-      more.style.maxHeight = more.scrollHeight + "px";
-    } else {
-      more.style.maxHeight = more.scrollHeight + "px";
-      more.offsetHeight;
-      more.style.maxHeight = "0px";
-    }
-  }
-
-  cards.forEach((card) => {
-    const btn = card.querySelector("[data-network-toggle]");
-    const moreId = btn?.getAttribute("aria-controls");
-    const more = moreId ? document.getElementById(moreId) : null;
-    if (!btn || !more) return;
-
-    more.hidden = true;
-    more.style.maxHeight = "0px";
-
-    const text = btn.querySelector(".network-toggle-text");
-    const icon = btn.querySelector(".network-toggle-icon");
-    if (text) text.textContent = "Voir plus";
-    if (icon) icon.textContent = "＋";
-
-    btn.addEventListener("click", () => {
-      const open = !card.classList.contains("is-open");
-      setOpen(card, open);
+    // Ouvre / ferme le menu
+    lsTrigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isOpen = lsSwitcher.classList.toggle('open');
+      lsMenu.hidden = !isOpen;
+      lsTrigger.setAttribute('aria-expanded', String(isOpen));
     });
 
-    more.addEventListener("transitionend", (e) => {
-      if (e.propertyName !== "max-height") return;
-      const isOpen = card.classList.contains("is-open");
-      if (!isOpen) {
-        more.hidden = true;
-      } else {
-        more.style.maxHeight = more.scrollHeight + "px";
+    // Sélection d'une langue
+    lsMenu.querySelectorAll('.ls-option').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var lang  = btn.dataset.lang;
+        var label = btn.dataset.label;
+
+        // Met à jour l'affichage du bouton
+        if (lsCurrent) lsCurrent.textContent = label;
+
+        // Active visuellement l'option choisie
+        lsMenu.querySelectorAll('.ls-option').forEach(function (o) {
+          o.classList.remove('ls-active');
+        });
+        btn.classList.add('ls-active');
+
+        // Déclenche la traduction via Google Translate
+        var sel = document.querySelector('.goog-te-combo');
+        if (sel) {
+          sel.value = lang;
+          sel.dispatchEvent(new Event('change'));
+        }
+
+        // Ferme le menu
+        lsSwitcher.classList.remove('open');
+        lsMenu.hidden = true;
+        lsTrigger.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Ferme si clic en dehors
+    document.addEventListener('click', function (e) {
+      if (lsSwitcher && !lsSwitcher.contains(e.target)) {
+        lsSwitcher.classList.remove('open');
+        lsMenu.hidden = true;
+        lsTrigger.setAttribute('aria-expanded', 'false');
       }
     });
+
+    // Ferme avec la touche Échap
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        lsSwitcher.classList.remove('open');
+        lsMenu.hidden = true;
+        lsTrigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+
+  /* ══ 3. RÉVÉLATION AU SCROLL ════════════════════════════════ */
+
+  var rvEls = document.querySelectorAll('.rv');
+  if (rvEls.length) {
+    var rvObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('ok');
+          rvObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    rvEls.forEach(function (el) { rvObs.observe(el); });
+  }
+
+
+  /* ══ 4. COMPTEURS ANIMÉS ════════════════════════════════════ */
+
+  function animateCounter(el) {
+    var target   = parseInt(el.dataset.t, 10);
+    var suffix   = el.dataset.s || '';
+    var duration = 2000;
+    var start    = performance.now();
+
+    function update(now) {
+      var progress = Math.min((now - start) / duration, 1);
+      var eased    = 1 - Math.pow(1 - progress, 4); // ease-out quart
+      el.textContent = Math.round(eased * target) + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  var cntObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting && e.target.dataset.t) {
+        animateCounter(e.target);
+        cntObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('[data-t]').forEach(function (el) {
+    cntObs.observe(el);
   });
 
-  window.addEventListener("resize", () => {
-    if (reduce) return;
-    cards.forEach((card) => {
-      if (!card.classList.contains("is-open")) return;
-      const btn = card.querySelector("[data-network-toggle]");
-      const moreId = btn?.getAttribute("aria-controls");
-      const more = moreId ? document.getElementById(moreId) : null;
-      if (!more) return;
-      more.style.maxHeight = more.scrollHeight + "px";
+
+  /* ══ 5. SLIDER PHOTOS ═══════════════════════════════════════ */
+  /*
+   * Classe "slide-item" utilisée pour les slides
+   * afin d'éviter tout conflit avec les règles CSS commençant par ".sl"
+   */
+
+  var track = document.getElementById('slTrack');
+  if (track) {
+
+    var slides   = track.querySelectorAll('.slide-item');
+    var dots     = document.querySelectorAll('.sd');
+    var prog     = document.getElementById('slProg');
+    var current  = 0;
+    var timer    = null;
+    var INTERVAL = 5500; // millisecondes entre chaque slide
+
+    // Navigue vers le slide numéro i
+    function goTo(i) {
+      if (!slides.length) return;
+      slides[current].classList.remove('active');
+      if (dots[current]) dots[current].classList.remove('sa');
+
+      current = (i + slides.length) % slides.length;
+
+      slides[current].classList.add('active');
+      if (dots[current]) dots[current].classList.add('sa');
+
+      track.style.transform = 'translateX(-' + (current * 100) + '%)';
+      resetProgress();
+    }
+
+    // Réinitialise et lance la barre de progression
+    function resetProgress() {
+      if (!prog) return;
+      prog.style.transition = 'none';
+      prog.style.width = '0%';
+      void prog.offsetWidth; // force le reflow pour relancer l'animation
+      prog.style.transition = 'width ' + INTERVAL + 'ms linear';
+      prog.style.width = '100%';
+    }
+
+    function startAuto()  { timer = setInterval(function () { goTo(current + 1); }, INTERVAL); resetProgress(); }
+    function stopAuto()   { clearInterval(timer); if (prog) { prog.style.transition = 'none'; prog.style.width = '0%'; } }
+
+    // Boutons précédent / suivant
+    var prevBtn = document.getElementById('slPrev');
+    var nextBtn = document.getElementById('slNext');
+    if (prevBtn) prevBtn.addEventListener('click', function () { stopAuto(); goTo(current - 1); startAuto(); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { stopAuto(); goTo(current + 1); startAuto(); });
+
+    // Pastilles de navigation
+    dots.forEach(function (dot, i) {
+      dot.addEventListener('click', function () { stopAuto(); goTo(i); startAuto(); });
+    });
+
+    // Support tactile (swipe)
+    var touchStartX = 0;
+    track.addEventListener('touchstart', function (e) { touchStartX = e.touches[0].clientX; stopAuto(); }, { passive: true });
+    track.addEventListener('touchend',   function (e) {
+      var dx = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(dx) > 40) goTo(dx > 0 ? current + 1 : current - 1);
+      startAuto();
+    }, { passive: true });
+
+    // Pause au survol
+    var slWrap = track.parentElement;
+    if (slWrap) { slWrap.addEventListener('mouseenter', stopAuto); slWrap.addEventListener('mouseleave', startAuto); }
+
+    startAuto();
+  }
+
+
+  /* ══ 6. ACCORDÉON RÉSEAU ════════════════════════════════════ */
+
+  document.querySelectorAll('[data-nc]').forEach(function (card) {
+    var btn    = card.querySelector('[data-nt]');
+    var moreId = btn && btn.getAttribute('aria-controls');
+    var more   = moreId ? document.getElementById(moreId) : null;
+    if (!btn || !more) return;
+
+    // État initial : fermé
+    more.style.overflow   = 'hidden';
+    more.style.maxHeight  = '0';
+    more.style.transition = 'max-height .32s ease';
+    more.hidden = true;
+
+    btn.addEventListener('click', function () {
+      var open = !card.classList.contains('open');
+      card.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', String(open));
+      btn.querySelector('.nt-txt').textContent = open ? 'Réduire' : 'Voir plus';
+
+      if (open) {
+        more.hidden = false;
+        more.style.maxHeight = '0';
+        more.offsetHeight;
+        more.style.maxHeight = more.scrollHeight + 'px';
+      } else {
+        more.style.maxHeight = more.scrollHeight + 'px';
+        more.offsetHeight;
+        more.style.maxHeight = '0';
+      }
+    });
+
+    more.addEventListener('transitionend', function (e) {
+      if (e.propertyName !== 'max-height') return;
+      if (!card.classList.contains('open')) more.hidden = true;
+      else more.style.maxHeight = more.scrollHeight + 'px';
     });
   });
-}
 
-// Tabs EDHA Academy
-function setupAcademyTabs() {
-  const tabs = document.querySelectorAll(".academy-tab");
-  const panels = document.querySelectorAll(".academy-panel");
-  if (!tabs.length || !panels.length) return;
 
-  function setActive(targetId) {
-    const next = document.getElementById(targetId);
-    if (!next) return;
+  /* ══ 7. SOUMISSION DE FORMULAIRE (Formspree) ════════════════ */
 
-    panels.forEach((p) => p.classList.toggle("active", p.id === targetId));
-    tabs.forEach((t) => t.classList.toggle("active", t.dataset.target === targetId));
+  async function submitForm(form, msgEl) {
 
-    next.style.animation = "none";
-    next.offsetHeight;
-    next.style.animation = "";
-  }
-
-  tabs.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const targetId = btn.dataset.target;
-      if (!targetId) return;
-      setActive(targetId);
-    });
-  });
-}
-
-// ====== FORMS (Formspree) ======
-function setMsg(el, type, text) {
-  if (!el) return;
-  el.textContent = text || "";
-  el.classList.remove("is-success", "is-error", "is-loading");
-  if (type) el.classList.add(type);
-}
-
-function setSubmitting(form, submitting) {
-  const btn = form.querySelector('button[type="submit"]');
-  if (btn) btn.disabled = submitting;
-
-  const inputs = form.querySelectorAll("input, textarea, select, button");
-  inputs.forEach((i) => {
-    if (i === btn) return;
-    i.disabled = submitting;
-  });
-
-  form.classList.toggle("is-submitting", submitting);
-}
-
-async function postFormspree(form, msgEl) {
-  const action = form.getAttribute("action") || "";
-  if (!action || action.includes("XXXXXXX") || action.includes("YYYYYYY")) {
-    setMsg(
-      msgEl,
-      "is-error",
-      "⚠️ Formulaire non configuré : remplace l’URL Formspree dans l’attribut action."
-    );
-    return;
-  }
-
-  const gotcha = form.querySelector('input[name="_gotcha"]');
-  if (gotcha && gotcha.value.trim() !== "") {
-    setMsg(msgEl, "is-success", "✅ Merci ! Votre message a été envoyé.");
-    form.reset();
-    return;
-  }
-
-  const page = form.querySelector('input[name="page"]');
-  const ts = form.querySelector('input[name="timestamp"]');
-  if (page) page.value = window.location.href;
-  if (ts) ts.value = new Date().toISOString();
-
-  const label = form.dataset.formLabel || "Formulaire";
-  const formData = new FormData(form);
-
-  formData.set("source", "edha-site");
-  formData.set("label", label);
-
-  if (!formData.get("_subject")) {
-    formData.set("_subject", `EDHA – Nouvelle demande (${label})`);
-  }
-
-  setSubmitting(form, true);
-  setMsg(msgEl, "is-loading", "⏳ Envoi en cours…");
-
-  try {
-    const res = await fetch(action, {
-      method: "POST",
-      headers: { Accept: "application/json" },
-      body: formData,
-    });
-
-    if (res.ok) {
-      setMsg(
-        msgEl,
-        "is-success",
-        "✅ Merci ! Votre demande a été envoyée avec succès. Nous vous contacterons bientôt."
-      );
+    // Protection anti-spam honeypot
+    var honeypot = form.querySelector('[name="_gotcha"]');
+    if (honeypot && honeypot.value.trim()) {
+      msgEl.textContent = '✅ Merci !';
+      msgEl.className   = 'fmsg ok';
       form.reset();
       return;
     }
 
-    let data = null;
-    try { data = await res.json(); } catch {}
+    // Renseigne les champs cachés
+    var pgField = form.querySelector('[name="page"]');
+    var tsField = form.querySelector('[name="timestamp"]');
+    if (pgField) pgField.value = location.href;
+    if (tsField) tsField.value = new Date().toISOString();
 
-    if (data && Array.isArray(data.errors) && data.errors.length) {
-      const details = data.errors.map((e) => e.message).join(" • ");
-      setMsg(msgEl, "is-error", `❌ Erreur : ${details}`);
-    } else {
-      setMsg(msgEl, "is-error", "❌ Une erreur est survenue. Veuillez réessayer plus tard.");
+    var formData  = new FormData(form);
+    formData.set('source', 'edha-site');
+
+    var submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled    = true;
+    msgEl.textContent = '⏳ Envoi en cours…';
+    msgEl.className   = 'fmsg ld';
+
+    try {
+      var res = await fetch(form.action, {
+        method:  'POST',
+        headers: { Accept: 'application/json' },
+        body:    formData
+      });
+
+      if (res.ok) {
+        msgEl.textContent = '✅ Message envoyé — Merci !';
+        msgEl.className   = 'fmsg ok';
+        form.reset();
+      } else {
+        msgEl.textContent = '❌ Erreur — Veuillez réessayer';
+        msgEl.className   = 'fmsg er';
+      }
+    } catch (err) {
+      msgEl.textContent = '❌ Connexion impossible';
+      msgEl.className   = 'fmsg er';
+    } finally {
+      submitBtn.disabled = false;
     }
-  } catch (err) {
-    setMsg(msgEl, "is-error", "❌ Impossible d’envoyer (connexion). Réessaie dans quelques instants.");
-  } finally {
-    setSubmitting(form, false);
-  }
-}
-
-function setupRealForms() {
-  const volunteerForm = document.getElementById("volunteerForm");
-  const partnerForm = document.getElementById("partnerForm");
-
-  if (volunteerForm) {
-    const msg = document.getElementById("volunteerMsg");
-    volunteerForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      postFormspree(volunteerForm, msg);
-    });
   }
 
-  if (partnerForm) {
-    const msg = document.getElementById("partnerMsg");
-    partnerForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      postFormspree(partnerForm, msg);
-    });
-  }
-}
+  // Attache le gestionnaire à tous les formulaires avec data-formid
+  document.querySelectorAll('form[data-formid]').forEach(function (form) {
+    var msgEl = document.getElementById(form.dataset.formid);
+    if (msgEl) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        submitForm(form, msgEl);
+      });
+    }
+  });
 
-document.addEventListener("DOMContentLoaded", () => {
-  setupNavbar();
-  setupReveal();
-  setupTranslatePro();
-  setupNetworkExpand();
-  setupAcademyTabs();
-  setupRealForms();
-});
+
+})(); // fin de l'IIFE
